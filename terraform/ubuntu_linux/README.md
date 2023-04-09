@@ -1,4 +1,4 @@
-0. [Works Cited]:(https://www.youtube.com/watch?v=V53AHWun17s)
+0. [Works Cited;](https://www.youtube.com/watch?v=V53AHWun17s)
 
 1. Install Terraform
 ```code
