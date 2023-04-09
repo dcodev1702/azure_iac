@@ -19,4 +19,6 @@ git clone https://github.com/dcodev1702/azure_iac.git
 ```code
 terraform fmt
 terraform init
+terraform plan
+terraform apply -auto-approve
 ```
