@@ -98,13 +98,13 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   resource_group_name   = azurerm_resource_group.secOps.name
   location              = azurerm_resource_group.secOps.location
   size                  = "Standard_D2as_v4"
-  admin_username        = "lorenzo"
+  admin_username        = "dcodev-1702"
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
   custom_data = filebase64("install_devEnv.sh")
 
   admin_ssh_key {
-    username   = "lorenzo"
+    username   = "dcodev-1702"
     public_key = file("~/.ssh/secOpsAzureKey.pub")
   }
 
@@ -125,7 +125,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   provisioner "local-exec" {
     command = templatefile("windows-ssh-vscode.tpl", {
       hostname = self.public_ip_address
-      user = "lorenzo"
+      user = "dcodev-1702"
       identityfile = "~/.ssh/secOpsAzureKey"
     })
     interpreter = ["powershell", "-Command"]
