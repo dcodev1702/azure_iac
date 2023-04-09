@@ -10,5 +10,11 @@ ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/secOpsAzureKey
 
 3. Download Repo
 ```code
+git clone https://github.com/dcodev1702/azure_iac.git
+```
 
+4. Initialize Terraform (Azure -> Linux VM)
+```code
+terraform fmt
+terraform init
 ```
