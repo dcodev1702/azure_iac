@@ -1,6 +1,6 @@
 0. [Works Cited:](https://www.youtube.com/watch?v=V53AHWun17s) A really helpful tutorial and great primer!
 
-1. Login to your Azure Subscription via CLI
+1. Login to your Azure Subscription via
 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli)
 
 If required to login via Azure US Government Cloud
