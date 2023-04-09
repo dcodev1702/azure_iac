@@ -16,6 +16,13 @@ wget \
 python3-dev \
 python3-pip &&
 
+# Update pip and install ansible and other popular python modules
+sudo python3 -m pip install --upgrade pip &&
+sudo python3 -m pip install ansible &&
+sudo python3 -m pip install beautifulsoup4 &&
+sudo python3 -m pip install arrow &&
+sudo python3 -m pip install tensoflow &&
+
 # Install Docker && Docker-Compose
 curl -sSL https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo bash &&
 sudo usermod -aG docker lorenzo &&
