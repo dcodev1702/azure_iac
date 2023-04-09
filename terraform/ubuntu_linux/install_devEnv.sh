@@ -1,9 +1,10 @@
 #!/bin/bash
 
 AZ_REPO=$(lsb_release -cs)
+USERNAME='dcodev-1702'
 
-touch /home/lorenzo/.hushlogin &&
-chown lorenzo:lorenzo /home/lorenzo/.hushlogin && 
+touch /home/$USERNAME/.hushlogin &&
+chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin && 
 sudo apt update && sudo apt upgrade -y &&
 sudo apt install -y \
 apt-transport-https \
@@ -13,12 +14,15 @@ software-properties-common \
 gnupg \
 net-tools \
 wget \
+gcc \
+g++ \
+openjdk-11-jdk \
 python3-dev \
 python3-pip &&
 
 # Install Docker && Docker-Compose
 curl -sSL https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo bash &&
-sudo usermod -aG docker lorenzo &&
+sudo usermod -aG docker $USERNAME &&
 curl -sSL https://raw.githubusercontent.com/dcodev1702/install_docker/main/install_docker-compose.sh | sudo bash &&
 
 
@@ -48,4 +52,9 @@ sudo python3 -m pip install --upgrade pip &&
 sudo python3 -m pip install ansible &&
 sudo python3 -m pip install beautifulsoup4 &&
 sudo python3 -m pip install arrow &&
-sudo python3 -m pip install tensorflow
+sudo python3 -m pip install tensorflow &&
+
+# Setup JAVA_HOME ENV for user $USERNAME
+echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /home/$USERNAME/.bashrc &&
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USERNAME/.bashrc &&
+source ~$USERNAME/.bashrc
