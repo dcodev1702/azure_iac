@@ -1,3 +1,5 @@
+0. [Works Cited]:(https://www.youtube.com/watch?v=V53AHWun17s)
+
 1. Install Terraform
 ```code
 https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
