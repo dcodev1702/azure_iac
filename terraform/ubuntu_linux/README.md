@@ -19,7 +19,7 @@ https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 
 3. Create ssh-key
 ```code
-ssh-keygen -o -a 100 -t ed25519 -f C:\Users\lorenzo/.ssh/secOpsAzureKey
+ssh-keygen -o -a 100 -t ed25519 -f C:\Users\dcodev-1702/.ssh/secOpsAzureKey
 ```
 
 4. Download Repo
