@@ -48,4 +48,4 @@ sudo python3 -m pip install --upgrade pip &&
 sudo python3 -m pip install ansible &&
 sudo python3 -m pip install beautifulsoup4 &&
 sudo python3 -m pip install arrow &&
-sudo python3 -m pip install tensoflow
+sudo python3 -m pip install tensorflow
