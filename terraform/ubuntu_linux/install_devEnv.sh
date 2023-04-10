@@ -16,8 +16,12 @@ net-tools \
 wget \
 gcc \
 g++ \
-openjdk-11-jdk-headless \
 rustc \
+btop \
+neofetch \
+gdu \
+nnn \
+openjdk-11-jdk-headless \
 python3-dev \
 python3-pip &&
 
@@ -53,6 +57,7 @@ sudo python3 -m pip install --upgrade pip &&
 sudo python3 -m pip install ansible &&
 sudo python3 -m pip install beautifulsoup4 &&
 sudo python3 -m pip install arrow &&
+sudo python3 -m pip install rainbowstream &&
 sudo python3 -m pip install tensorflow &&
 
 # Setup JAVA_HOME ENV for user $USERNAME
