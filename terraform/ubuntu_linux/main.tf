@@ -111,8 +111,8 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   os_disk {
     name                 = "secOps-tf-linux-vm-01-osdisk"
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-    disk_size_gb         = "40"
+    storage_account_type = "Premium_LRS"
+    disk_size_gb         = "60"
   }
 
   source_image_reference {
