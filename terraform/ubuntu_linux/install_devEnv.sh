@@ -16,7 +16,8 @@ net-tools \
 wget \
 gcc \
 g++ \
-openjdk-11-jdk \
+openjdk-11-jdk-headless \
+rustc \
 python3-dev \
 python3-pip &&
 
