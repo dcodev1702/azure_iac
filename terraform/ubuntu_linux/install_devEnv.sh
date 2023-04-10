@@ -37,8 +37,8 @@ if [ ! $(command -v pwsh) ]; then
     sudo apt-get install -y powershell
 fi &&
 
-sudo pwsh -c 'if (-not (Get-Module -Name Az -ListAvailable)) { Install-Module -Name Az -Scope AllUsers -Force }' &&
-sudo pwsh -c 'if (-not (Get-Module -Name Az.ConnectedMachine -ListAvailable)) { Install-Module -Name Az.ConnectedMachine -Scope AllUsers -Force }' &&
+sudo pwsh -c 'if (-not (Get-Module -Name Az)) { Install-Module -Name Az -Scope AllUsers -Force }' &&
+sudo pwsh -c 'if (-not (Get-Module -Name Az.ConnectedMachine)) { Install-Module -Name Az.ConnectedMachine -Scope AllUsers -Force }' &&
 
 # Install Azure CLI
 sudo mkdir -p /etc/apt/keyrings &&
