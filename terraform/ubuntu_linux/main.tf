@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "secOps" {
   name     = "secOps-tf-rg"
   location = "eastus"
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
@@ -26,7 +26,7 @@ resource "azurerm_virtual_network" "secOps-vnet" {
   location            = azurerm_resource_group.secOps.location
   address_space       = ["10.123.0.0/16"]
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
@@ -42,7 +42,7 @@ resource "azurerm_network_security_group" "secOps-nsg" {
   location            = azurerm_resource_group.secOps.location
   resource_group_name = azurerm_resource_group.secOps.name
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
@@ -54,7 +54,7 @@ resource "azurerm_network_security_rule" "secOps-dev-ssh-rule" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "xx.xx.xx.xx/32"
+  source_address_prefix       = var.rule_ip_addresses
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.secOps.name
   network_security_group_name = azurerm_network_security_group.secOps-nsg.name
@@ -73,7 +73,7 @@ resource "azurerm_public_ip" "secOps-ip" {
   resource_group_name = azurerm_resource_group.secOps.name
   allocation_method   = "Dynamic"
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
@@ -89,7 +89,7 @@ resource "azurerm_network_interface" "secOps-nic" {
     public_ip_address_id          = azurerm_public_ip.secOps-ip.id
   }
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
@@ -98,13 +98,13 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   resource_group_name   = azurerm_resource_group.secOps.name
   location              = azurerm_resource_group.secOps.location
   size                  = "Standard_D2as_v4"
-  admin_username        = "dcodev-1702"
+  admin_username        = var.end_user
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
   custom_data = filebase64("install_devEnv.sh")
 
   admin_ssh_key {
-    username   = "dcodev-1702"
+    username   = var.end_user
     public_key = file("~/.ssh/secOpsAzureKey.pub")
   }
 
@@ -124,15 +124,15 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 
   provisioner "local-exec" {
     command = templatefile("windows-ssh-vscode.tpl", {
-      hostname = self.public_ip_address
-      user = "dcodev-1702"
+      hostname     = self.public_ip_address
+      user         = var.end_user
       identityfile = "~/.ssh/secOpsAzureKey"
     })
-    interpreter = ["powershell", "-Command"]
+    interpreter = var.host_os == "windows" ? ["powershell", "-Command"] : ["bash", "-c"]
   }
 
   tags = {
-    environment = "dev"
+    environment = var.tag_env
   }
 }
 
