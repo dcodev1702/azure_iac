@@ -1,4 +1,5 @@
-add-content -path C:/Users/lorenzo/.ssh/config -value @'
+$usernme = [System.Environment]::UserName
+add-content -path C:/Users/$username/.ssh/config -value @'
 
 Host ${hostname}
    HostName ${hostname}
