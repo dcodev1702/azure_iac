@@ -15,5 +15,5 @@ variable "tag_env" {
 
 variable "rule_ip_addresses" {
   type    = string
-  default = "69.138.83.14/32"
+  default = "xx.xx.xx.xx/32"
 }
