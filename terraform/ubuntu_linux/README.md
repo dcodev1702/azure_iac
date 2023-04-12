@@ -9,7 +9,8 @@ Assumptions:
 1. Login to your Azure Subscription via
 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli)
 
-  * If required to login via Azure US Government Cloud
+ 
+*** If required to login via Azure US Government Cloud ***
 ```code
 az cloud set --name AzureUSGovernment
 ```
