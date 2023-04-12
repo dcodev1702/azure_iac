@@ -11,9 +11,9 @@
 
  
 *** If required to login via Azure US Government Cloud ***
-```code
-az cloud set --name AzureUSGovernment
-```
+* ```code
+* az cloud set --name AzureUSGovernment
+* ```
 
 ```code
 az login --use-device-code
