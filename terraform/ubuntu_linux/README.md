@@ -37,6 +37,15 @@ git clone https://github.com/dcodev1702/azure_iac.git
 ```code
 terraform fmt
 terraform init
+```
+
+6. Deploy Resource Group and Ubuntu 22.04 VM to Azure
+```code
 terraform plan
 terraform apply -auto-approve
+```
+
+7. Remove Resource Group, Ubuntu 22.04 VM & associated resources
+```code
+terraform apply -destroy -auto-approve
 ```
