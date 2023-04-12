@@ -1,7 +1,7 @@
 Assumptions:
 * You have Internet access
 * You have access to PowerShell 5.X or greater. <br />
-* You can also accomplish this using Bash ..you will just need to modify a step 3 '$($env:USER)' for example to $USER. <br />
+* You can also accomplish this using Bash ..however, you need to modify step 3 '$($env:USER)' for example to $USER. <br />
 
 # Instructions
 0. [Works Cited:](https://www.youtube.com/watch?v=V53AHWun17s) A really helpful tutorial and great primer!
