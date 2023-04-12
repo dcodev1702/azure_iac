@@ -3,6 +3,7 @@
 AZ_REPO=$(lsb_release -cs)
 USERNAME='dcodev-1702'
 
+# Install baseline & development packages (Java, GCC|G++, Python, Rust, & PowerShell)
 touch /home/$USERNAME/.hushlogin &&
 chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin && 
 sudo apt update && sudo apt upgrade -y &&
