@@ -33,19 +33,28 @@ ssh-keygen -t rsa -f "C:\Users\$env:USERNAME/.ssh/secOpsAzureKey"
 git clone https://github.com/dcodev1702/azure_iac.git
 ```
 
-5. Initialize Terraform (Azure -> Linux VM)
+5. Modify Terraform variables as required
 ```code
+vi variables.tf
+  - modify
+    + IP Address
+    + Username
+    + Host OS
 terraform fmt
+```
+
+6. Initialize Terraform (Azure -> Linux VM)
+```code
 terraform init
 ```
 
-6. Deploy Resource Group and Ubuntu 22.04 VM to Azure
+7. Deploy Resource Group and Ubuntu 22.04 VM to Azure
 ```code
 terraform plan
 terraform apply -auto-approve
 ```
 
-7. Remove Resource Group, Ubuntu 22.04 VM & associated resources
+8. Remove Resource Group, Ubuntu 22.04 VM & associated resources
 ```code
 terraform apply -destroy -auto-approve
 ```
