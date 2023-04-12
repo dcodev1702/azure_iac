@@ -1,4 +1,4 @@
-Assumptions:
+# Assumptions:
 * You have Internet access
 * You have access to PowerShell 5.X or greater. <br />
 * You can also accomplish this using Bash ..however, you need to modify step 3 '$($env:USER)' for example to $USER. <br />
