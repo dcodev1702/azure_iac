@@ -29,7 +29,7 @@ https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 ssh-keygen -t rsa -f "C:\Users\$env:USERNAME/.ssh/secOpsAzureKey"
 ```
 
-4. Download Repo
+4. Download Github Repository
 ```code
 git clone https://github.com/dcodev1702/azure_iac.git
 ```
