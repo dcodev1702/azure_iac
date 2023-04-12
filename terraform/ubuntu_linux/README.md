@@ -35,11 +35,12 @@ git clone https://github.com/dcodev1702/azure_iac.git
 
 5. Modify Terraform variables as required
 ```code
-vi variables.tf
-  - modify
+modify variables.tf
+  - change
     + IP Address
     + Username
     + Host OS
+    
 terraform fmt
 ```
 
