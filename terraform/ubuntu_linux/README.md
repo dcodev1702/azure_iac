@@ -19,7 +19,7 @@ az login --use-device-code
 
 2. Install Terraform
 ```code
-https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+https://developer.hashicorp.com/terraform/downloads?ajs_aid=218faf6d-b0b4-4ef3-8c19-7f0805043ee6&product_intent=terraform
 ```
 
 3. Create ssh-key
