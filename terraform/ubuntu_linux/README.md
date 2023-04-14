@@ -54,7 +54,15 @@ terraform plan
 terraform apply -auto-approve
 ```
 
-8. Remove Resource Group, Ubuntu 22.04 VM & associated resources
+8. SSH into your newly provisioned Linux VM
+```code
+ssh -i .ssh/secOpsAzureKey <username>@<VM-PUBLIC-UP>
+```
+
+9. Connect VSCode via SSH
+
+
+10. Remove Resource Group, Ubuntu 22.04 VM & associated resources
 ```code
 terraform apply -destroy -auto-approve
 ```
