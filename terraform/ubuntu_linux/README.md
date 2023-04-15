@@ -61,7 +61,7 @@ terraform init
 terraform plan
 ```
 
-8. Deploy Resource Group and Ubuntu 22.04 VM to Azure
+8. Provision and deploy Azure resources and Ubuntu 22.04 VM
 ```code
 terraform apply -auto-approve
 ```
