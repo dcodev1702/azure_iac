@@ -54,7 +54,7 @@ resource "azurerm_network_security_rule" "secOps-dev-ssh-rule" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = var.rule_ip_addresses
+  source_address_prefix       = "${chomp(data.http.my-home-ip.response_body)}/32"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.secOps.name
   network_security_group_name = azurerm_network_security_group.secOps-nsg.name
@@ -139,6 +139,10 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 data "azurerm_public_ip" "secOps-ip-data" {
   name                = azurerm_public_ip.secOps-ip.name
   resource_group_name = azurerm_resource_group.secOps.name
+}
+
+data "http" "my-home-ip" {
+  url = "http://ipv4.icanhazip.com"
 }
 
 output "public_ip_address" {
