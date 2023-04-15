@@ -11,7 +11,6 @@
 
  
 *** If required to login via Azure US Government Cloud *** <br />
-    
     `az cloud set --name AzureUSGovernment`
 
 ```code
