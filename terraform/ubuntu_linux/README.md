@@ -36,7 +36,6 @@ git clone https://github.com/dcodev1702/azure_iac.git
 ```code
 modify variables.tf
   - change
-    + IP Address
     + Username
     + Host OS
     
