@@ -3,7 +3,6 @@
 AZ_REPO=$(lsb_release -cs)
 USERNAME='dcodev-1702'
 
-# Install baseline & development packages (Java, GCC|G++, Python, Rust, & PowerShell)
 touch /home/$USERNAME/.hushlogin &&
 chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin && 
 sudo apt update && sudo apt upgrade -y &&
@@ -52,6 +51,9 @@ sudo chmod go+r /etc/apt/keyrings/microsoft.gpg &&
 echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list &&
 sudo apt-get update &&
 sudo apt-get install -y azure-cli &&
+
+# Install Azure Bicep
+az bicep install &&
 
 # Update pip and install ansible and other popular python modules
 sudo python3 -m pip install --upgrade pip &&
