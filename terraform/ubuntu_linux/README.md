@@ -56,21 +56,25 @@ terraform fmt
 terraform init
 ```
 
-7. Deploy Resource Group and Ubuntu 22.04 VM to Azure
+7. Verify Terraform Plan is compliant with sanity checks
 ```code
 terraform plan
+```
+
+8. Deploy Resource Group and Ubuntu 22.04 VM to Azure
+```code
 terraform apply -auto-approve
 ```
 
-8. SSH into your newly provisioned Linux VM
+9. SSH into your newly provisioned Linux VM
 ```code
 ssh -i .ssh/secOpsAzureKey <username>@<VM-PUBLIC-UP>
 ```
 
-9. Connect VSCode via SSH
+10. Connect VSCode via SSH
 
 
-10. Remove Resource Group, Ubuntu 22.04 VM & associated resources
+11. Remove Resource Group, Ubuntu 22.04 VM & associated resources
 ```code
 terraform apply -destroy -auto-approve
 ```
