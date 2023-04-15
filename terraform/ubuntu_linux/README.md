@@ -24,7 +24,7 @@ https://developer.hashicorp.com/terraform/downloads?ajs_aid=218faf6d-b0b4-4ef3-8
 
 3. Provision SSH Key (Windows / Linux) <br />
 
-&nbsp;&nbsp;&nbsp;3a. Provision SSH Key on a Windows Host
+`   3a. Provision SSH Key on a Windows Host`
 
 ```PowerShell
 ssh-keygen -t rsa -b 4096 -f "$env:SYSTEMDRIVE$env:HOMEPATH\.ssh\secOpsAzureKey"
