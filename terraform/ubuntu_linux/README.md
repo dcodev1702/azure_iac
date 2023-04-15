@@ -22,10 +22,17 @@ az login --use-device-code
 https://developer.hashicorp.com/terraform/downloads?ajs_aid=218faf6d-b0b4-4ef3-8c19-7f0805043ee6&product_intent=terraform
 ```
 
-3. Create ssh-key
+3.  Provision SSH Key (Windows / Linux)
+*3a. Provision SSH Key on a Windows Host
 ```PowerShell
-ssh-keygen -t rsa -f "C:\Users\$env:USERNAME/.ssh/secOpsAzureKey"
+ssh-keygen -t rsa -b 4096 -f "$env:SYSTEMDRIVE$env:HOMEPATH\.ssh\secOpsAzureKey"
 ```
+
+*3b. Provision SSH Key on a Linux Host
+```PowerShell
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/secOpsAzureKey
+```
+
 
 4. Download Github Repository
 ```code
