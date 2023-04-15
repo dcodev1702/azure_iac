@@ -13,7 +13,7 @@ variable "tag_env" {
   default = "dev"
 }
 
-variable "rule_ip_addresses" {
-  type    = string
-  default = "xx.xx.xx.xx/32"
-}
+#variable "rule_ip_addresses" {
+#  type    = string
+#  default = "xx.xx.xx.xx/32"
+#}
