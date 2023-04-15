@@ -28,12 +28,7 @@ https://developer.hashicorp.com/terraform/downloads?ajs_aid=218faf6d-b0b4-4ef3-8
    ```PowerShell
    ssh-keygen -t rsa -b 4096 -f "$env:SYSTEMDRIVE$env:HOMEPATH\.ssh\secOpsAzureKey"
    ```
-
-
-<br />
-<br />
-
-
+   
 
    `3b. Provision SSH Key on a Linux Host`
     ```PowerShell
