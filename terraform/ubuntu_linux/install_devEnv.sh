@@ -52,9 +52,6 @@ echo "deb [arch=`dpkg --print-architecture` signed-by=/etc/apt/keyrings/microsof
 sudo apt-get update &&
 sudo apt-get install -y azure-cli &&
 
-# Install Azure Bicep
-az bicep install &&
-
 # Update pip and install ansible and other popular python modules
 sudo python3 -m pip install --upgrade pip &&
 sudo python3 -m pip install ansible &&
@@ -62,6 +59,9 @@ sudo python3 -m pip install beautifulsoup4 &&
 sudo python3 -m pip install arrow &&
 sudo python3 -m pip install rainbowstream &&
 sudo python3 -m pip install tensorflow &&
+
+# Install Azure Bicep
+su - $USERNAME -c 'az bicep install' &&
 
 # Setup JAVA_HOME ENV for user $USERNAME
 echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /home/$USERNAME/.bashrc &&
