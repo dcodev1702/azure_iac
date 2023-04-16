@@ -48,6 +48,10 @@ modify variables.tf
     + Username
     + Host OS
     
+modify main.tf
+  - change
+    + line 126 to reflect your Host OS
+    
 terraform fmt
 ```
 
