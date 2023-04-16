@@ -14,7 +14,7 @@
     `az cloud set --name AzureUSGovernment`
 
 ```code
-az login --use-device-code
+az login
 ```
 
 2. Install Terraform
