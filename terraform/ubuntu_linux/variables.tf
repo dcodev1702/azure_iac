@@ -3,10 +3,11 @@ variable "end_user" {
   default = "dcodev-1702"
 }
 
-variable "host_os" {
-  type    = string
-  default = "windows"
-}
+# Replaced by local.check_os
+#variable "host_os" {
+#  type    = string
+#  default = "windows"
+#}
 
 variable "tag_env" {
   type    = string
