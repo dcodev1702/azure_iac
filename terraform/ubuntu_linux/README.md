@@ -46,11 +46,6 @@ git clone https://github.com/dcodev1702/azure_iac.git
 modify variables.tf
   - change
     + Username
-    + Host OS
-    
-modify main.tf
-  - change
-    + line 126 to reflect your Host OS
     
 terraform fmt
 ```
