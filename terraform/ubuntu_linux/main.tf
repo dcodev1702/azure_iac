@@ -123,12 +123,12 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   }
 
   provisioner "local-exec" {
-    command = templatefile("${local.check_os}-ssh-vscode.tpl", {
+    command = templatefile("${local.host_os}-ssh-vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.end_user
       identityfile = "~/.ssh/secOpsAzureKey"
     })
-    interpreter = local.check_os == "windows" ? ["powershell", "-Command"] : ["bash", "-c"]
+    interpreter = local.host_os == "windows" ? ["powershell", "-Command"] : ["bash", "-c"]
   }
 
   tags = {
@@ -138,7 +138,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 
 locals {
   os = data.external.os.result.os
-  check_os = local.os == "windows" ? "windows" : "linux"
+  host_os = local.os == "windows" ? "windows" : "linux"
 }
 
 data "external" "os" {
@@ -155,8 +155,8 @@ data "http" "my-home-ip" {
   url = "http://ipv4.icanhazip.com"
 }
 
-output "host_os" {
-  value = "${local.check_os}" 
+output "local_host_os" {
+  value = "${local.host_os}" 
 }
 
 output "public_ip_address" {
