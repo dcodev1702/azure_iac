@@ -1,10 +1,10 @@
 #!/bin/bash
 
 AZ_REPO=$(lsb_release -cs)
-USER='dcodev-1702'
+USERNAME='dcodev-1702'
 
-touch /home/$USER/.hushlogin &&
-chown $USER:$USER /home/$USER/.hushlogin && 
+touch /home/$USERNAME/.hushlogin &&
+chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin && 
 sudo apt update && sudo apt upgrade -y &&
 sudo apt install -y \
 apt-transport-https \
@@ -27,7 +27,7 @@ python3-pip &&
 
 # Install Docker && Docker-Compose
 curl -sSL https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo bash &&
-sudo usermod -aG docker $USER &&
+sudo usermod -aG docker $USERNAME &&
 curl -sSL https://raw.githubusercontent.com/dcodev1702/install_docker/main/install_docker-compose.sh | sudo bash &&
 
 
@@ -67,9 +67,9 @@ sudo python3 -m pip install rainbowstream &&
 sudo python3 -m pip install tensorflow &&
 
 # Install Azure Bicep
-su - $USER -c 'az bicep install' &&
+su - $USERNAME -c 'az bicep install' &&
 
 # Setup JAVA_HOME ENV for user $USERNAME
-echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /home/$USER/.bashrc &&
-echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USER/.bashrc &&
-source ~$USER/.bashrc
+echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/' >> /home/$USERNAME/.bashrc &&
+echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USERNAME/.bashrc &&
+source ~$USERNAME/.bashrc
