@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AZ_REPO=$(lsb_release -cs)
+USER='dcodev-1702'
 
 touch /home/$USER/.hushlogin &&
 chown $USER:$USER /home/$USER/.hushlogin && 
