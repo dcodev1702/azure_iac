@@ -1,4 +1,4 @@
-# Assumptions:
+# Prerequisites:
 * You have Internet access
 * You possess an Azure subscription
 * You possess the ability to install applications on the Information System (IS) being used.
