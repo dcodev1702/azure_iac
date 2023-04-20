@@ -1,6 +1,7 @@
 # Assumptions:
 * You have Internet access
 * You possess an Azure subscription
+* You possess the ability to install applications on the Information System (IS) being used.
 * You possess the requisite permissions and access in your Azure tenant/subscription to create resources. 
 * You have access to PowerShell 5.X or greater. <br />
 
