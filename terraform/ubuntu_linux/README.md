@@ -46,7 +46,7 @@ git clone https://github.com/dcodev1702/azure_iac.git
 
 5. Modify Terraform variables as required
 
-modify variables.tf  <br />
+* Modify variables.tf file  <br />
   - change the value for 'end_user' variable <br />
      -> default = <mark style="background-color: lightblue">dcodev-1702</mark>
 
