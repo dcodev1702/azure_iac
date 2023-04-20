@@ -77,7 +77,7 @@ Select 'Connect to Host' (via SSH [~/.ssh/config])
 ![EA3FEB3B-1B2D-4CCB-BF19-97DF9452D4E3](https://user-images.githubusercontent.com/32214072/233232097-a908be86-eaad-4bcc-9879-6d3364b4b73f.jpeg)
 
 
-Select the Linux VM provisioned in Azure -> 20.124.181.98
+Select the Linux VM provisioned in Azure -> 20.124.181.98 <br />
 This entry was dynamically created through either windows_ssh_vscode.tpl or linux_ssh_vscode.tpl.
 
 ![3A6EEF48-BE37-43C6-93B9-7DACC0E6FCB2](https://user-images.githubusercontent.com/32214072/233232706-930d7fbb-7659-46de-9a10-f3e36bac5984.jpeg)
