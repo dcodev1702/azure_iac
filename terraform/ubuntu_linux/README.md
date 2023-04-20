@@ -48,7 +48,8 @@ git clone https://github.com/dcodev1702/azure_iac.git
 
 * Modify variables.tf file  <br />
   - change the value for 'end_user' variable <br />
-     -> default = <mark style="background-color: lightblue">"dcodev-1702"</mark>
+  ![image](https://user-images.githubusercontent.com/32214072/233409779-06ab855e-7536-4088-8372-1b4f3df37b18.png)
+
 
 ```code    
 terraform fmt
