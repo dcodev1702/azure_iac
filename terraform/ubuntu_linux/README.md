@@ -73,6 +73,11 @@ ssh -i ~/.ssh/secOpsAzureKey <username>@<VM-PUBLIC-UP>
 10. Connect VSCode via SSH
 
 
+![EA3FEB3B-1B2D-4CCB-BF19-97DF9452D4E3](https://user-images.githubusercontent.com/32214072/233232097-a908be86-eaad-4bcc-9879-6d3364b4b73f.jpeg)
+
+
+
+
 11. Remove Resource Group, Ubuntu 22.04 VM & associated resources
 ```code
 terraform apply -destroy -auto-approve
