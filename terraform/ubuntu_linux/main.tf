@@ -105,7 +105,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 
   admin_ssh_key {
     username   = var.end_user
-    public_key = file("~/.ssh/secOpsAzureKey.pub")
+    public_key = file(pathexpand("~/.ssh/secOpsAzureKey.pub"))
   }
 
   os_disk {
@@ -126,7 +126,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
     command = templatefile("${local.host_os}-ssh-vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.end_user
-      identityfile = "~/.ssh/secOpsAzureKey"
+      identityfile = pathexpand("~/.ssh/secOpsAzureKey")
     })
     interpreter = local.host_os == "windows" ? ["powershell", "-Command"] : ["bash", "-c"]
   }
