@@ -25,7 +25,7 @@ az login
 https://developer.hashicorp.com/terraform/downloads
 ```
 
-3. Provision SSH Key (Windows / Linux) <br />
+3. Provision SSH Key [Windows | Linux] <br />
 
    `3a. Provision SSH Key on a Windows Host`
    ```PowerShell
