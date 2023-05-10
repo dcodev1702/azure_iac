@@ -51,7 +51,7 @@ git clone https://github.com/dcodev1702/azure_iac.git
   ![image](https://user-images.githubusercontent.com/32214072/233409779-06ab855e-7536-4088-8372-1b4f3df37b18.png)
 
 * Modify the USERNAME variable within init_script.sh (bash script) to match 'end_user' value in variables.tf
-  - **==This is a temporary work-around and will be fixed soon!==**
+  - ==This is a temporary work-around and will be fixed soon!==
   - ensure the USERNAME variable is the exact same as declared for 'end_user' in variables.tf
   ![504C98B3-2A2D-4A95-9BA4-BAB1A1D0A388](https://github.com/dcodev1702/azure_iac/assets/32214072/43ee81ba-5fde-4899-ac61-2c630c4a544e)
 
