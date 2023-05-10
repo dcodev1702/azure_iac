@@ -1,6 +1,6 @@
 variable "end_user" {
   type    = string
-  default = "dcodev-1702"
+  default = "dcodev"
 }
 
 variable "tag_env" {
