@@ -126,7 +126,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
       command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.end_user
-      username     = data.external.host_username.result.username
+      username     = local.host_os == "windows" ? data.external.host_username.result.username : "null"
       identityfile = pathexpand("~/.ssh/secOpsAzureKey")
     })
     
@@ -143,8 +143,6 @@ locals {
   os = data.external.os.result.os
   host_os = local.os == "windows" ? "windows" : "linux"
   end_user = var.end_user
-  #is_windows_host = can(file("C:/Windows"))
-  #count  = local.is_windows_host ? 1 : 0
 }
 
 
