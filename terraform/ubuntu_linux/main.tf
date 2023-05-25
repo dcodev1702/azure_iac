@@ -101,7 +101,6 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   admin_username        = var.end_user
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
-  # This is called user_data() in AWS
   custom_data = filebase64("init_script.sh")
 
   admin_ssh_key {
@@ -124,12 +123,14 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   }
 
   provisioner "local-exec" {
-    command = templatefile("${local.host_os}-ssh-vscode.tpl", {
+      command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.end_user
+      username     = data.external.host_username.result.username
       identityfile = pathexpand("~/.ssh/secOpsAzureKey")
     })
-    interpreter = local.host_os == "windows" ? ["powershell", "-Command"] : ["bash", "-c"]
+    
+    interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
   }
 
   tags = {
@@ -137,15 +138,15 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   }
 }
 
+
 locals {
   os = data.external.os.result.os
   host_os = local.os == "windows" ? "windows" : "linux"
+  end_user = var.end_user
+  #is_windows_host = can(file("C:/Windows"))
+  #count  = local.is_windows_host ? 1 : 0
 }
 
-data "external" "os" {
-  working_dir = path.module
-  program = ["printf", "{\"os\": \"linux\"}"]
-}
 
 data "azurerm_public_ip" "secOps-ip-data" {
   name                = azurerm_public_ip.secOps-ip.name
@@ -156,8 +157,21 @@ data "http" "my-home-ip" {
   url = "http://ipv4.icanhazip.com"
 }
 
+data "external" "host_username" {
+  program = ["powershell.exe","-c","${path.module}/get_host_user.ps1"]
+}
+
+data "external" "os" {
+  working_dir = path.module
+  program = ["printf", "{\"os\": \"linux\"}"]
+}
+
+output "host_username" {
+  value = "${data.external.host_username.result.username}"
+}
+
 output "local_host_os" {
-  value = "${local.host_os}" 
+  value = "${local.host_os}"
 }
 
 output "public_ip_address" {
