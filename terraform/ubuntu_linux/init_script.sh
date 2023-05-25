@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AZ_REPO=$(lsb_release -cs)
-USERNAME=${1:-"dcodev-1702"}
+USERNAME=${1:-"dcodev"}
 
 touch /home/$USERNAME/.hushlogin
 chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin
