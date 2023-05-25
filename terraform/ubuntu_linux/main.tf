@@ -156,7 +156,7 @@ data "http" "my-home-ip" {
 }
 
 data "external" "host_username" {
-  program = ["powershell.exe","-c","${path.module}/get_host_user.ps1"]
+  program = local.os == "windows" ? ["powershell.exe","-c","${path.module}/get_host_user.ps1"] : ["bash", "-c", "/dev/null"]
 }
 
 data "external" "os" {
