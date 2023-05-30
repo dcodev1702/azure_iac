@@ -105,7 +105,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 
   admin_ssh_key {
     username   = var.end_user
-    public_key = file(pathexpand("~/.ssh/secOpsAzureKey.pub"))
+    public_key = file(pathexpand("~/.ssh/${var.ssh_key_name}.pub"))
   }
 
   os_disk {
@@ -127,7 +127,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
       hostname     = self.public_ip_address
       user         = var.end_user
       username     = data.external.host_username.result.username
-      identityfile = pathexpand("~/.ssh/secOpsAzureKey")
+      identityfile = pathexpand("~/.ssh/${var.ssh_key_name}")
     })
     
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
