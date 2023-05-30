@@ -51,6 +51,7 @@ git clone https://github.com/dcodev1702/azure_iac.git
   ![image](https://user-images.githubusercontent.com/32214072/233409779-06ab855e-7536-4088-8372-1b4f3df37b18.png)
 
   - If necessary, change the 'ssh_key_name' variable value to the ssh key name you want to use for the creation of your Linux VM.
+  - Use the same name that you provided in step 3 (above) when you created your ssh key.
     <img width="279" alt="image" src="https://github.com/dcodev1702/azure_iac/assets/32214072/047cff6d-159a-4631-9668-a007158932c5">
 
 
