@@ -102,7 +102,6 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
   custom_data = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.end_user}" }))
-  #custom_data = filebase64("init_script.sh")
 
   admin_ssh_key {
     username   = var.end_user
