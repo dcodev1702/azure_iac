@@ -172,6 +172,10 @@ output "local_host_os" {
   value = "${local.host_os}"
 }
 
+output "vm_username_bash_script" {
+  value = "${var.end_user}"
+}
+
 output "public_ip_address" {
   value = "${azurerm_linux_virtual_machine.secOps-linux-vm-01.name}: ${data.azurerm_public_ip.secOps-ip-data.ip_address}"
 }
