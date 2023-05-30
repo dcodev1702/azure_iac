@@ -1,7 +1,9 @@
 #!/bin/bash
 
 AZ_REPO=$(lsb_release -cs)
-USERNAME=${1:-"dcodev"}
+
+# Populated via variables.tf -> end_user variable
+USERNAME="${VM_USERNAME}"
 
 touch /home/$USERNAME/.hushlogin
 chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin
