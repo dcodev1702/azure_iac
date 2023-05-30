@@ -101,7 +101,8 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   admin_username        = var.end_user
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
-  custom_data = filebase64("init_script.sh")
+  custom_data = filebase64(templatefile("${path.module}/init_script.tpl", { USERNAME = "${var.end_user}" }))
+  #custom_data = filebase64("init_script.sh")
 
   admin_ssh_key {
     username   = var.end_user
