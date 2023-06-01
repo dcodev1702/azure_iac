@@ -98,13 +98,13 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   resource_group_name   = azurerm_resource_group.secOps.name
   location              = azurerm_resource_group.secOps.location
   size                  = "Standard_D2as_v4"
-  admin_username        = var.end_user
+  admin_username        = var.vm_username
   network_interface_ids = [azurerm_network_interface.secOps-nic.id]
 
-  custom_data = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.end_user}" }))
+  custom_data = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.vm_username}" }))
 
   admin_ssh_key {
-    username   = var.end_user
+    username   = var.vm_username
     public_key = file(pathexpand("~/.ssh/${var.ssh_key_name}.pub"))
   }
 
@@ -125,7 +125,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
   provisioner "local-exec" {
       command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
-      user         = var.end_user
+      user         = var.vm_username
       username     = data.external.host_username.result.username
       identityfile = pathexpand("~/.ssh/${var.ssh_key_name}")
     })
@@ -142,7 +142,6 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
 locals {
   os = data.external.os.result.os
   host_os = local.os == "windows" ? "windows" : "linux"
-  end_user = var.end_user
 }
 
 
@@ -173,7 +172,7 @@ output "local_host_os" {
 }
 
 output "vm_username_bash_script" {
-  value = "${var.end_user}"
+  value = "${var.vm_username}"
 }
 
 output "public_ip_address" {
