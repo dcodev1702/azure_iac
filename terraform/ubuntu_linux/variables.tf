@@ -1,4 +1,4 @@
-variable "end_user" {
+variable "vm_username" {
   type    = string
   default = "dcodev"
 }
