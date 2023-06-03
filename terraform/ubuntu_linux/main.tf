@@ -151,7 +151,7 @@ data "azurerm_public_ip" "secOps-ip-data" {
 }
 
 data "http" "my-home-ip" {
-  url = "http://ipv4.icanhazip.com"
+  url = "https://ipv4.icanhazip.com"
 }
 
 data "external" "host_username" {
