@@ -1,0 +1,59 @@
+Enable Audit at boot
+  sudo vi /etc/default/grub 
+     GRUB_CMDLINE_LINUX="audit=1"
+     
+Disable IPv6
+  sudo vi /etc/default/grub
+     GRUB_CMDLINE_LINUX="ipv6.disable=1"
+     
+sudo grub2-mkconfig -o /boot/grub/grub.cfg
+
+Install Docker
+---------------
+sudo dnf purge runc
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf install docker-ce
+
+sudo usermod -aG docker $USER
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+
+sudo vi /etc/docker/daemon.json
+---------------------------------
+{
+  "default-shm-size": "64M",
+  "default-ulimits": {
+    "nofile": {
+      "Hard": 64000,
+      "Name": "nofile",
+      "Soft": 64000
+    }
+  },
+  "icc": false,
+  "storage-driver": "overlay2",
+  "debug": true,
+  "experimental": false,
+  "live-restore": true,
+  "userland-proxy": false,
+  "no-new-privileges": true,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "log-level": "info",
+  "debug": true,
+  "userns-remap": "default"
+}
+
+
+
+Install Docker-Compose:
+------------------------
+curl -sSL https://raw.githubusercontent.com/dcodev1702/install_docker/main/install_docker-compose.sh | sudo bash
+
+
+Enable FIPS Mode 140-2
+------------------------
+fips-mode-setup --enable
+reboot
+fips-mode-setup --check
