@@ -1,18 +1,25 @@
-Enable Audit at boot
+Enable Audit Daemon at boot:
+----------------------------
   sudo vi /etc/default/grub 
      GRUB_CMDLINE_LINUX="audit=1"
      
-Disable IPv6
+Disable IPv6:
+-------------
   sudo vi /etc/default/grub
      GRUB_CMDLINE_LINUX="ipv6.disable=1"
      
-sudo grub2-mkconfig -o /boot/grub/grub.cfg
+  sudo grub2-mkconfig -o /boot/grub/grub.cfg
+  reboot
+
+Install RSyslog:
+----------------
+sudo dnf install rsyslog
 
 Install Docker
 ---------------
 sudo dnf purge runc
 sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-sudo dnf install docker-ce
+sudo dnf update && sudo dnf install docker-ce
 
 sudo usermod -aG docker $USER
 sudo systemctl enable docker.service
@@ -45,7 +52,18 @@ sudo vi /etc/docker/daemon.json
   "userns-remap": "default"
 }
 
+Audit Docker:
+--------------
+sudo vi /etc/audit/rules.d/audit.rules
 
+-w /usr/bin/docker -k docker
+-w /var/lib/docker -k docker
+-w /etc/docker -k docker
+-w /usr/lib/systemd/system/docker.service -k docker
+-w /etc/default/docker -k docker
+-w /etc/docker/daemon.json -k docker
+-w /usr/bin/containerd -k docker
+-w /usr/bin/runc -k docker
 
 Install Docker-Compose:
 ------------------------
