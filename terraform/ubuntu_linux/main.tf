@@ -119,7 +119,7 @@ resource "azurerm_linux_virtual_machine" "secOps-linux-vm-01" {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts-gen2"
-    version   = "22.04.202303290"
+    version   = "22.04.202307250"
   }
 
   provisioner "local-exec" {
