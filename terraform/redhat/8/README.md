@@ -47,10 +47,13 @@ ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
 
 [SELINUX TROUBLESHOOTING](https://www.syslog-ng.com/community/b/blog/posts/using-syslog-ng-with-selinux-in-enforcing-mode) TIPS:
 VERY VALUABLE -- Search the Journal for SELINUX issues <br />
-By default; SELINUX is in "enforcing" mode, you can change it to "permissive" mode (requires reboot)  <br />
-here: sudo vi /etc/selinux/config <br />
 ```console
 sudo journalctl -b 0
+```
+
+By default; SELINUX is in "enforcing" mode, you can change it to "permissive" mode (requires reboot)  <br />
+```console
+sudo vi /etc/selinux/config <br />
 ```
 
 If you spot errors with SELINUX and RSYSLOG, you might see this as a suggestion <br />
