@@ -36,5 +36,5 @@ terraform apply -auto-approve
 ```
 
 ```console
-terraform apply -destory -auto-approve
+terraform apply -destroy -auto-approve
 ```
