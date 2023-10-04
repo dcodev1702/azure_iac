@@ -6,9 +6,9 @@
 ```console
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88-rsyslog-azure
 ```
-5. Create Service Principal and fill out the following in terraform.tfvars <br />
 
 ## Azure Login via Service Principal (SP) <br />
+5. Create Service Principal and fill out the following in terraform.tfvars <br />
 
 ```console
 export SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
