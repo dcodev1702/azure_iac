@@ -53,7 +53,7 @@ sudo journalctl -b 0
 
 By default; SELINUX is in "enforcing" mode, you can change it to "permissive" mode (requires reboot)  <br />
 ```console
-sudo vi /etc/selinux/config <br />
+sudo vi /etc/selinux/config
 ```
 
 If you spot errors with SELINUX and RSYSLOG, you might see this as a suggestion <br />
