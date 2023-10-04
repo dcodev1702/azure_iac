@@ -6,6 +6,11 @@ USERNAME="${VM_USERNAME}"
 touch /home/$USERNAME/.hushlogin
 chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin
 
+# Setup directory structore for RSYSLOG 
+# (Syslog Collector -> /etc/rsyslog.d/00-remotelog.conf)
+sudo mkdir -p /var/log/remote/auth
+sudo mkdir -p /var/log/remote/msg
+
 sudo dnf update -y
 sudo dnf install -y \
      yum-utils \
@@ -54,6 +59,7 @@ echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USERNAME/.bashrc
 sudo su - $USERNAME
 source ~/$USERNAME/.bashrc
 
+# Disabling Firewall until I can figure out how to get it to work with rsyslog and syslog-ng
 sudo systemctl disable firewalld.service
 sudo systemctl stop firewalld.service
 
