@@ -7,6 +7,7 @@
 
 ```console
 export SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
+az login
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 ```
 
