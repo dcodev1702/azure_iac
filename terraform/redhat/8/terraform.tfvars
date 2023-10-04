@@ -5,6 +5,8 @@ vm_subnet_cidr    = "10.120.1.0/24"
 # Linux VM
 linux_vm_size  = "Standard_D2as_v4"
 linux_username = "dcodev"
+
+# ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88-rsyslog-azure
 ssh_key_name   = "rhel88-rsyslog-azure"
 
 # Azure Login via Service Principal (SP)
