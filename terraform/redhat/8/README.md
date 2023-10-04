@@ -17,6 +17,7 @@ azure_client_id       = "YOUR_CLIENT(APP)_ID" <br />
 azure_client_secret   = "YOUR_CLIENT_SECRET" <br />
 azure_tenant_id       = "YOUR_TENANT_ID" <br />
 
+<br />
 
 ```console
 terraform init
