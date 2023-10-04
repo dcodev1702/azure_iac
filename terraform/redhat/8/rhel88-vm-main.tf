@@ -1,6 +1,6 @@
 # Generate a random vm name
 resource "random_string" "random_string" {
-  length  = 8
+  length  = 12
   upper   = false
   numeric = true
   lower   = true
