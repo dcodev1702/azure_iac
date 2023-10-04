@@ -45,7 +45,7 @@ ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
 ```
 
 <br />
-<br />
+
 How to tear down (destroy) the RHEL 8.8 VM.  <br />
 ```console
 terraform apply -destroy -auto-approve
