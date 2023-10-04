@@ -1,8 +1,8 @@
 # Terraform -> Azure -> RHEL 8.8
 1. It is assumed you have a [Microsoft Azure subscription](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwiWpuXG-9uBAxVESEcBHWBwAZgYABAAGgJxdQ&gclid=Cj0KCQjwmvSoBhDOARIsAK6aV7hY_R0AQtooe0G7jUgnei74fZDEHxmBdrAMRCpF4RFBRFYcsXf5aogaAt4nEALw_wcB&ohost=www.google.com&cid=CAESV-D2oYum1fYGjjaGhxnHvnWoX1f789QATR7Gd3anE2ra-eclgk2vrm1eDZV4r_rb7-XEuscGUmEwPEnXsol7EgAkHmKTUvc8DbTAThZRwpYo4TJ5GNNn8g&sig=AOD64_3_96UyILGUIi6Yt96ibtWYcBwmIg&q&adurl&ved=2ahUKEwjxwdzG-9uBAxUNjIkEHW1dCZUQ0Qx6BAgJEAE) with the appropriate permissions.
-2. It is assumed [Azure CLI is installed](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=dnf)
-3. It is assumed [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) is installed <br />
-4. Provision an SSH Key for the RedHat Linux Host (Key MUST be type: RSA)
+2. It is assumed [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=dnf) is installed. <br />
+3. It is assumed [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) is installed. <br />
+4. Provision an SSH Key for the RedHat Linux Syslog Collector (Key MUST be of type: RSA).
 ```console
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88-rsyslog-azure
 ```
