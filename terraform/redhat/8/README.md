@@ -1,7 +1,8 @@
 # Terraform -> Azure -> RHEL 8.8
 1. It is assumed [Azure CLI is installed](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=dnf)
+2. It is assumed [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) is installed <br />
 
-2. Create Service Principal and fill out the following in terraform.tfvars <br />
+3. Create Service Principal and fill out the following in terraform.tfvars <br />
 
 ## Azure Login via Service Principal (SP) <br />
 
