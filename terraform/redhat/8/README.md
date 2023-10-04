@@ -43,8 +43,12 @@ terraform apply -auto-approve
 ```console
 ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
 ```
-
+<br />
 [SELINUX TROUBLESHOOTING](https://www.syslog-ng.com/community/b/blog/posts/using-syslog-ng-with-selinux-in-enforcing-mode) TIP: <br />
+```console
+ls -dZ /var/log/
+```
+
 ```console
 semanage port --list | grep syslog
 ```
