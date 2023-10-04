@@ -41,9 +41,10 @@ terraform apply -auto-approve
 ```
 
 ```console
-terraform apply -destroy -auto-approve
+ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
 ```
 
+How to tear down (destroy) the RHEL 8.8 VM.
 ```console
-ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
+terraform apply -destroy -auto-approve
 ```
