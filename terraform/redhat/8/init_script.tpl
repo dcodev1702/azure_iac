@@ -59,7 +59,7 @@ echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USERNAME/.bashrc
 sudo su - $USERNAME
 source ~/$USERNAME/.bashrc
 
-# Disabling Firewall until I can figure out how to get it to work with rsyslog and syslog-ng
+# Disabling Firewall until I can figure out how to get it to work with rsyslog
 sudo systemctl disable firewalld.service
 sudo systemctl stop firewalld.service
 
