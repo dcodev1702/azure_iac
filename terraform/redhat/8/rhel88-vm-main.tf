@@ -1,5 +1,5 @@
 # Generate a random vm name
-resource "random_string" "network-security-random" {
+resource "random_string" "random_string" {
   length  = 8
   upper   = false
   numeric = true
@@ -8,7 +8,7 @@ resource "random_string" "network-security-random" {
 }
 
 resource "azurerm_resource_group" "rhel88-vm-rg" {
-  name     = "rhel88-vm-tf-rg"
+  name     = "rhel88-vm-tf-rg-${random_string.random_string.result}"
   location = "eastus"
   tags = {
     environment = var.tag_env
@@ -18,11 +18,14 @@ resource "azurerm_resource_group" "rhel88-vm-rg" {
 resource "random_uuid" "get-uuid" {}
 
 resource "random_id" "random_id" {
+  keepers = {
+    resource_group = azurerm_resource_group.rhel88-vm-rg.name
+  }
   byte_length = 8
 }
 
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
-  name                = "rhel88-vm-tf-vnet"
+  name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   location            = azurerm_resource_group.rhel88-vm-rg.location
   address_space       = [var.network_vnet_cidr]
@@ -42,7 +45,7 @@ resource "azurerm_subnet" "rhel88-vm-subnet" {
 # Create Security Group to access linux
 resource "azurerm_network_security_group" "rhel88-vm-nsg" {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-nsg"
+  name                = "rhel88-vm-tf-nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   security_rule {
@@ -151,15 +154,15 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   }
 
   provisioner "file" {
-    source       = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
-    destination  = "/home/${var.linux_username}/00-remotelog.conf"
+    source      = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
+    destination = "/home/${var.linux_username}/00-remotelog.conf"
     #on_failure  = continue
     connection {
       type        = "ssh"
       user        = self.admin_username
       private_key = file("${path.module}/ssh/rhel88-rsyslog-azure")
       host        = self.public_ip_address
-      #agent      = false
+      #agent       = false
     }
   }
 
