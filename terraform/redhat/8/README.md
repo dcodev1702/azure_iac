@@ -7,7 +7,7 @@ SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 ```
 
-:: terraform.tfvars ::
+:: terraform.tfvars :: <br />
 azure_subscription_id = "" <br />
 azure_client_id       = "" <br />
 azure_client_secret   = "" <br />
