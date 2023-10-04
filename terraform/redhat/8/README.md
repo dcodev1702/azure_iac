@@ -43,3 +43,7 @@ terraform apply -auto-approve
 ```console
 terraform apply -destroy -auto-approve
 ```
+
+```console
+ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
+```
