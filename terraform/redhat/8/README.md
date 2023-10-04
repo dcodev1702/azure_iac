@@ -12,10 +12,10 @@ az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIP
 ```
 
 :: terraform.tfvars :: <br />
-azure_subscription_id = "" <br />
-azure_client_id       = "" <br />
-azure_client_secret   = "" <br />
-azure_tenant_id       = "" <br />
+azure_subscription_id = "YOUR_SUBSCRIPTION_ID" <br />
+azure_client_id       = "YOUR_CLIENT(APP)_ID" <br />
+azure_client_secret   = "YOUR_CLIENT_SECRET" <br />
+azure_tenant_id       = "YOUR_TENANT_ID" <br />
 
 
 ```console
