@@ -1,10 +1,12 @@
 # Terraform -> Azure -> RHEL 8.8
-Create Service Principal and fill out the following in terraform.tfvars <br />
+1. It is assumed [Azure CLI is installed](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=dnf)
+
+2. Create Service Principal and fill out the following in terraform.tfvars <br />
 
 ## Azure Login via Service Principal (SP) <br />
 
 ```console
-SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
+export SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 ```
 
