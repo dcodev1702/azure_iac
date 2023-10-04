@@ -50,7 +50,7 @@ semanage port --list | grep syslog
 ```
 
 ```console
-semanage port -a -t syslogd_port_t -p tcp 42
+semanage port -a -t syslogd_port_t -p tcp 20514
 ```
 
 <br />
