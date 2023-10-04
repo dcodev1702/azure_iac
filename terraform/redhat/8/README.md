@@ -4,7 +4,7 @@
 3. It is assumed [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) is installed <br />
 4. Provision SSH Key on Linux Host (Key MUST be type: RSA)
 ```console
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88-rsyslog-azure
 ```
 5. Create Service Principal and fill out the following in terraform.tfvars <br />
 
