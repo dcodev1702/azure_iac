@@ -12,6 +12,9 @@ sudo mkdir -p /var/log/remote/auth
 sudo mkdir -p /var/log/remote/msg
 
 sudo dnf update -y
+
+sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
 sudo dnf install -y \
      yum-utils \
      python3-devel \
@@ -21,6 +24,11 @@ sudo dnf install -y \
      java-11-openjdk-devel \
      btop \
      nnn
+
+# Copy the rsyslog config file to the correct location
+sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
+sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
+#sudo systemctl restart rsyslog.service
 
 # Register the Microsoft RedHat repository
 curl -sSL -O https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
@@ -35,7 +43,6 @@ sudo dnf install -y powershell
 sudo pwsh -c Install-Module -Name Az -Scope AllUsers -Force
 sudo pwsh -c Install-Module -Name Az.ConnectedMachine -Scope AllUsers -Force
 
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 # Install Azure CLI
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -59,7 +66,7 @@ echo 'export PATH=$JAVA_HOME/bin:$PATH' >> /home/$USERNAME/.bashrc
 sudo su - $USERNAME
 source ~/$USERNAME/.bashrc
 
-# Disabling Firewall until I can figure out how to get it to work with rsyslog
+# Disabling Firewall until I can figure out how to get it to work with rsyslog and syslog-ng
 sudo systemctl disable firewalld.service
 sudo systemctl stop firewalld.service
 
@@ -81,10 +88,15 @@ sudo systemctl stop firewalld.service
 #sudo firewall-cmd --add-rich-rule='rule syslog=ipv4 forward-port to-port=28330 protocol=tcp port=514' --permanent
 #sudo firewall-cmd --add-rich-rule='rule syslog=ipv4 forward-port to-port=28330 protocol=udp port=514' --permanent
 
-# firewall-cmd --permanent --zone=internal --add-forward-port=port=514:proto=tcp:toaddr=127.0.0.1:toport=28330
+# firewall-cmd --permanent --zone=internal --add-forward-port=port=20514:proto=tcp:toaddr=127.0.0.1:toport=28330
 # firewall-cmd --permanent --zone=internal --add-forward-port=port=514:proto=udp:toaddr=127.0.0.1:toport=28330
 # firewall-cmd --reload
 # firewall-cmd --list-forward-ports
+     
+# sudo firewall-cmd --add-port=514/udp --permanent
+# sudo firewall-cmd --add-port=20514/tcp --permanent
+# sudo firewall-cmd --add-port=28330/tcp --permanent
+# sudo firewall-cmd --reload
 
 sleep 1
 sudo logger "Initialization installation script (init_script.sh) completed successfully."
