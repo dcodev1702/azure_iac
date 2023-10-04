@@ -44,6 +44,15 @@ terraform apply -auto-approve
 ssh -i ~/.ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
 ```
 
+[SELINUX TROUBLESHOOTING](https://www.syslog-ng.com/community/b/blog/posts/using-syslog-ng-with-selinux-in-enforcing-mode) TIP: <br />
+```console
+semanage port --list | grep syslog
+```
+
+```console
+semanage port -a -t syslogd_port_t -p tcp 42
+```
+
 <br />
 
 How to tear down (destroy) the RHEL 8.8 VM.  <br />
