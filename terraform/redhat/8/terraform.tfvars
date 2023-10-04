@@ -8,7 +8,7 @@ linux_username = "dcodev"
 ssh_key_name   = "rhel88-rsyslog-azure"
 
 # Azure Login via Service Principal (SP)
-# SUBSCRIPTION_ID="ENTER_YOUR_SUBSCRIPTION_ID"
+# export SUBSCRIPTION_ID="ENTER_YOUR_SUBSCRIPTION_ID"
 # az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 azure_subscription_id = ""
 azure_client_id       = ""
