@@ -1,9 +1,9 @@
 # Generate a random vm name
 resource "random_string" "network-security-random" {
-  length  = 6
+  length  = 8
   upper   = false
   numeric = true
-  lower   = false
+  lower   = true
   special = false
 }
 
@@ -16,6 +16,10 @@ resource "azurerm_resource_group" "rhel88-vm-rg" {
 }
 
 resource "random_uuid" "get-uuid" {}
+
+resource "random_id" "random_id" {
+  byte_length = 8
+}
 
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet"
@@ -62,7 +66,7 @@ resource "azurerm_network_security_group" "rhel88-vm-nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "20514"
+    destination_port_range     = "514"
     source_address_prefix      = "${chomp(data.http.my-home-ip.response_body)}/32"
     destination_address_prefix = "*"
   }
@@ -89,7 +93,7 @@ resource "azurerm_subnet_network_security_group_association" "rhel88-vm-nsg-asso
 # Get a Static Public IP
 resource "azurerm_public_ip" "rhel88-vm-ip" {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-ip-${random_uuid.get-uuid.result}"
+  name                = "rhel88-vm-tf-ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   allocation_method   = "Static"
@@ -97,7 +101,7 @@ resource "azurerm_public_ip" "rhel88-vm-ip" {
 # Create Network Card for linux VM
 resource "azurerm_network_interface" "rhel88-vm-nic" {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-nic-${random_uuid.get-uuid.result}"
+  name                = "rhel88-vm-tf-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
 
@@ -123,7 +127,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
     version   = "latest"
   }
   os_disk {
-    name                 = "rhel88-vm-osdisk-${random_uuid.get-uuid.result}"
+    name                 = "rhel88-vm-osdisk-${random_id.random_id.hex}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
     disk_size_gb         = "80"
@@ -144,6 +148,19 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
+  }
+
+  provisioner "file" {
+    source       = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
+    destination  = "/home/${var.linux_username}/00-remotelog.conf"
+    #on_failure  = continue
+    connection {
+      type        = "ssh"
+      user        = self.admin_username
+      private_key = file("${path.module}/ssh/rhel88-rsyslog-azure")
+      host        = self.public_ip_address
+      #agent      = false
+    }
   }
 
   tags = {
