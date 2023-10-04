@@ -66,7 +66,7 @@ resource "azurerm_network_security_group" "rhel88-vm-nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "514"
+    destination_port_range     = "20514"
     source_address_prefix      = "${chomp(data.http.my-home-ip.response_body)}/32"
     destination_address_prefix = "*"
   }
