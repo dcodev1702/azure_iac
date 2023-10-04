@@ -120,7 +120,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   depends_on            = [azurerm_network_interface.rhel88-vm-nic]
   location              = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name   = azurerm_resource_group.rhel88-vm-rg.name
-  name                  = "rhel88-vm-syslog-tf-01"
+  name                  = "rhel88-vm-syslog-tf-${random_string.random_string.result}"
   network_interface_ids = [azurerm_network_interface.rhel88-vm-nic.id]
   size                  = var.linux_vm_size
   source_image_reference {
