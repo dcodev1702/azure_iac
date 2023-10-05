@@ -165,7 +165,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
       hostname     = self.public_ip_address
       user         = var.linux_username
       username     = data.external.host_username.result.username
-      identityfile = pathexpand("${path.module}/ssh/rhel88-rsyslog-azure.pem")
+      identityfile = tls_private_key.ssh-private-key.private_key_openssh
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
@@ -224,11 +224,6 @@ output "vm_username_bash_script" {
 
 output "public_ip_address" {
   value = "${azurerm_linux_virtual_machine.rhel88-vm.name}: ${data.azurerm_public_ip.rhel88-vm-ip-data.ip_address}"
-}
-
-output "private_ssh_key" {
-  value = tls_private_key.ssh-private-key.private_key_openssh
-  sensitive = true
 }
 
 resource "null_resource" "set-perms-ssh_key" {
