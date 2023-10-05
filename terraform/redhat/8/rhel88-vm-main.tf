@@ -235,3 +235,16 @@ resource "null_resource" "set-perms-ssh_key" {
     always_run = "${timestamp()}"
   }
 }
+
+# Identify the Data Collection Rule (Syslog) for association
+data azurerm_monitor_data_collection_rule syslog-dcr {
+  name                = var.syslog_dcr_name
+  resource_group_name = var.dcr_resource_group_name
+}
+
+# Associate the Data Collection Rule (Syslog) with the Linux VM
+resource azurerm_monitor_data_collection_rule_association syslog-dcra {
+  name                    = "dcra-${azurerm_linux_virtual_machine.rhel88-vm.name}"
+  target_resource_id      = azurerm_linux_virtual_machine.rhel88-vm.id
+  data_collection_rule_id = data.azurerm_monitor_data_collection_rule.syslog-dcr.id
+}
