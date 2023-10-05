@@ -24,6 +24,20 @@ resource "random_id" "random_id" {
   byte_length = 8
 }
 
+resource "tls_private_key" "ssh-private-key" {
+  algorithm  = "RSA"
+  rsa_bits   = 4096
+}
+
+# Save the private key to your local machine
+# Save the public key to your your Azure VM
+# We use the private key to connect to the Azure VM
+
+resource "local_file" "rhel88-rsyslog-azure" {
+  content  = tls_private_key.ssh-private-key.private_key_openssh
+  filename = "${path.module}/ssh/rhel88-rsyslog-azure"
+}
+
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
@@ -117,10 +131,14 @@ resource "azurerm_network_interface" "rhel88-vm-nic" {
 }
 # Create Linux VM with linux server
 resource "azurerm_linux_virtual_machine" "rhel88-vm" {
-  depends_on            = [azurerm_network_interface.rhel88-vm-nic]
+  depends_on            = [
+    azurerm_network_interface.rhel88-vm-nic,
+    tls_private_key.ssh-private-key
+  ]
   location              = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name   = azurerm_resource_group.rhel88-vm-rg.name
   name                  = "rhel88-vm-syslog-tf-${random_string.random_string.result}"
+  disable_password_authentication = true
   network_interface_ids = [azurerm_network_interface.rhel88-vm-nic.id]
   size                  = var.linux_vm_size
   source_image_reference {
@@ -137,7 +155,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   }
   admin_ssh_key {
     username   = var.linux_username
-    public_key = file(pathexpand("~/.ssh/${var.ssh_key_name}.pub"))
+    public_key = tls_private_key.ssh-private-key.public_key_openssh
   }
   admin_username = var.linux_username
   custom_data    = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.linux_username}" }))
@@ -147,7 +165,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
       hostname     = self.public_ip_address
       user         = var.linux_username
       username     = data.external.host_username.result.username
-      identityfile = pathexpand("~/.ssh/${var.ssh_key_name}")
+      identityfile = pathexpand("${path.module}/ssh/rhel88-rsyslog-azure.pem")
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
@@ -159,7 +177,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
     connection {
       type        = "ssh"
       user        = self.admin_username
-      private_key = file("${path.module}/ssh/rhel88-rsyslog-azure")
+      private_key = tls_private_key.ssh-private-key.private_key_openssh
       host        = self.public_ip_address
     }
   }
@@ -206,4 +224,20 @@ output "vm_username_bash_script" {
 
 output "public_ip_address" {
   value = "${azurerm_linux_virtual_machine.rhel88-vm.name}: ${data.azurerm_public_ip.rhel88-vm-ip-data.ip_address}"
+}
+
+output "private_ssh_key" {
+  value = tls_private_key.ssh-private-key.private_key_openssh
+  sensitive = true
+}
+
+resource "null_resource" "set-perms-ssh_key" {
+  depends_on = [local_file.rhel88-rsyslog-azure]
+  provisioner "local-exec" {
+    command = local.host_os == "linux" ? "chmod 400 ${path.module}/ssh/rhel88-rsyslog-azure" : "icacls.exe ${path.module}\\ssh\\rhel88-rsyslog-azure.pem /inheritance:r"
+    interpreter = local.host_os == "linux" ? ["bash", "-c"] : ["powershell.exe", "-command"]
+  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
 }
