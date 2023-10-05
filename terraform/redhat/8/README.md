@@ -76,7 +76,7 @@ semanage port -a -t syslogd_port_t -p tcp 20514
 
 <br />
 
-How to tear down (destroy) the RHEL 8.8 VM.  <br />
+Tear down (destroy) the RHEL 8.8 VM as associated resources.  <br />
 ```console
 terraform apply -destroy -auto-approve
 ```
