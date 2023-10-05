@@ -32,10 +32,9 @@ resource "tls_private_key" "ssh-private-key" {
 # Save the private key to your local machine
 # Save the public key to your your Azure VM
 # We use the private key to connect to the Azure VM
-
 resource "local_file" "rhel88-rsyslog-azure" {
   content  = tls_private_key.ssh-private-key.private_key_openssh
-  filename = "${path.module}/ssh/rhel88-rsyslog-azure"
+  filename = "${path.module}/ssh/${var.ssh_key_name}"
 }
 
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
@@ -165,7 +164,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
       hostname     = self.public_ip_address
       user         = var.linux_username
       username     = data.external.host_username.result.username
-      identityfile = tls_private_key.ssh-private-key.private_key_openssh
+      identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}")
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
@@ -229,7 +228,7 @@ output "public_ip_address" {
 resource "null_resource" "set-perms-ssh_key" {
   depends_on = [local_file.rhel88-rsyslog-azure]
   provisioner "local-exec" {
-    command = local.host_os == "linux" ? "chmod 400 ${path.module}/ssh/rhel88-rsyslog-azure" : "icacls.exe ${path.module}\\ssh\\rhel88-rsyslog-azure.pem /inheritance:r"
+    command = local.host_os == "linux" ? "chmod 400 ${path.module}/ssh/${var.ssh_key_name}" : "icacls.exe ${path.module}\\ssh\\${var.ssh_key_name} /inheritance:r"
     interpreter = local.host_os == "linux" ? ["bash", "-c"] : ["powershell.exe", "-command"]
   }
   triggers = {
