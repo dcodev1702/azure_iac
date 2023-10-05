@@ -5,7 +5,7 @@
 
 
 ## Azure Login via Service Principal (SP)
-5. Create a Service Principal and fill out the following fields in terraform.tfvars <br />
+4. Create a Service Principal and fill out the following fields in terraform.tfvars <br />
 
 ```console
 export SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
