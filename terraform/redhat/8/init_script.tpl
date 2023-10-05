@@ -11,8 +11,10 @@ chown $USERNAME:$USERNAME /home/$USERNAME/.hushlogin
 sudo mkdir -p /var/log/remote/auth
 sudo mkdir -p /var/log/remote/msg
 
+sleep 5
 sudo dnf update -y
 
+sleep 60
 sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 sudo dnf install -y \
@@ -55,12 +57,12 @@ sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-micros
 sudo dnf install -y azure-cli
 
 # Update pip and install ansible and other popular python modules
-sudo -H python3 -m pip install --upgrade pip
-#sudo -H python3 -m pip install ansible
-#sudo -H python3 -m pip install beautifulsoup4
-#sudo -H python3 -m pip install arrow
-#sudo -H python3 -m pip install rainbowstream
-#sudo -H python3 -m pip install tensorflow
+# sudo -H python3 -m pip install --upgrade pip
+# sudo -H python3 -m pip install ansible
+# sudo -H python3 -m pip install beautifulsoup4
+# sudo -H python3 -m pip install arrow
+# sudo -H python3 -m pip install rainbowstream
+# sudo -H python3 -m pip install tensorflow
 
 # Install Azure CLI Extensions
 sudo su - $USERNAME -c 'az bicep install'
