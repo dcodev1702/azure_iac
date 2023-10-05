@@ -28,6 +28,10 @@ sudo dnf install -y \
 # Copy the rsyslog config file to the correct location
 sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
 sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
+
+# MUST apply SELINUX syslog_conf label on 00-remotelog.conf since it was moved
+# from a user's directory into a service (syslog) configuration direcotry!!!
+# rsyslog WILL NOT work unless this label is applied.
 sudo /sbin/restorecon -v /etc/rsyslog.d/00-remotelog.conf
 sudo systemctl restart rsyslog.service
 
