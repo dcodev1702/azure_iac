@@ -55,12 +55,12 @@ sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-micros
 sudo dnf install -y azure-cli
 
 # Update pip and install ansible and other popular python modules
-sudo python3 -m pip install --upgrade pip
-#sudo python3 -m pip install ansible
-#sudo python3 -m pip install beautifulsoup4
-#sudo python3 -m pip install arrow
-#sudo python3 -m pip install rainbowstream
-#sudo python3 -m pip install tensorflow
+sudo -H python3 -m pip install --upgrade pip
+#sudo -H python3 -m pip install ansible
+#sudo -H python3 -m pip install beautifulsoup4
+#sudo -H python3 -m pip install arrow
+#sudo -H python3 -m pip install rainbowstream
+#sudo -H python3 -m pip install tensorflow
 
 # Install Azure CLI Extensions
 sudo su - $USERNAME -c 'az bicep install'
