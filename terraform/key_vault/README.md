@@ -1,8 +1,8 @@
-#Provision an Azure Key Vault and populate with an SSH Key (private / public)
+# Provision an Azure Key Vault and populate with an SSH Key (private / public)
 
 <br />
 
-##Basic Instructions (down & dirty)
+## Basic Instructions (down & dirty)
 ```console
 terraform init
 ```
