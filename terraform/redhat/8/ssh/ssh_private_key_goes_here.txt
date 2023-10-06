@@ -1,0 +1,1 @@
+SSH private key will reside in this directory upon successful provisioning.
