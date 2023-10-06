@@ -41,20 +41,6 @@ data "azurerm_key_vault_secret" "ssh_private_key" {
   key_vault_id = data.azurerm_key_vault.main.id
 }
 
-# Save the private key to your local machine
-# Save the public key to your your Azure VM
-# We use the private key to connect to the Azure VM
-#resource "local_file" "rhel88-private-key" {
-#  content = azurerm_key_vault_secret.ssh_private_key.value
-  #content  = tls_private_key.main.private_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}"
-#}
-#resource "local_file" "rhel88-public-key" {
-#  content = azurerm_key_vault_secret.ssh_public_key.value
-  #content  = tls_private_key.main.public_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
-#}
-
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
