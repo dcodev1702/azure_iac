@@ -12,6 +12,10 @@ ssh_port   = "22"
 syslog_tcp = "20514"
 syslog_udp = "514"
 
+# Key Vault Information
+keyvault_name = "kv-ssh-key-vrimiwj1"
+keyvault_resource_group_name = "rg-kv-vrimiwj1"
+
 # Data Collection Rule & Association
 syslog_dcr_name = "Linux-Syslog-0"
 dcr_resource_group_name = "sec_telem_law_1"
