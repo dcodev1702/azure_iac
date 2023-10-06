@@ -38,3 +38,23 @@ variable "linux_vm_size" {
   type        = string
   description = "Linux VM Size"
 }
+variable "syslog_dcr_name" {
+  type        = string
+  description = "Linux VM Size"
+}
+variable "dcr_resource_group_name" {
+  type        = string
+  description = "Linux VM Size"
+}
+variable "ssh_port" {
+  type        = string
+  description = "Linux VM Size"
+}
+variable "syslog_tcp" {
+  type        = string
+  description = "Linux VM Size"
+}
+variable "syslog_udp" {
+  type        = string
+  description = "Linux VM Size"
+}
