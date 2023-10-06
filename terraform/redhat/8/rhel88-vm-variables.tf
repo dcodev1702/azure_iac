@@ -58,3 +58,11 @@ variable "syslog_udp" {
   type        = string
   description = "Linux VM Size"
 }
+variable "keyvault_name" {
+  type        = string
+  description = "Name of the keyvault"
+}
+variable "keyvault_resource_group_name" {
+  type        = string
+  description = "Name of the keyvault resource group"
+}
