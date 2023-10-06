@@ -1,4 +1,4 @@
-# Provision an Azure Key Vault and populate with an SSH Key (private / public)
+# Provision an Azure Key Vault and populate with an SSH Key
 
 <br />
 
