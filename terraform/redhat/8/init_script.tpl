@@ -15,6 +15,7 @@ sleep 5
 sudo dnf update -y
 
 sleep 60
+# Install EPEL repository
 sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
 sudo dnf install -y \
@@ -30,10 +31,6 @@ sudo dnf install -y \
 # Copy the rsyslog config file to the correct location
 sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
 sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
-
-# MUST apply SELINUX syslog_conf label on 00-remotelog.conf since it was moved
-# from a user's directory into a service (syslog) configuration direcotry!!!
-# rsyslog WILL NOT work unless this label is applied.
 sudo /sbin/restorecon -v /etc/rsyslog.d/00-remotelog.conf
 sudo systemctl restart rsyslog.service
 
@@ -58,11 +55,11 @@ sudo dnf install -y azure-cli
 
 # Update pip and install ansible and other popular python modules
 # sudo -H python3 -m pip install --upgrade pip
-# sudo -H python3 -m pip install ansible
-# sudo -H python3 -m pip install beautifulsoup4
-# sudo -H python3 -m pip install arrow
-# sudo -H python3 -m pip install rainbowstream
-# sudo -H python3 -m pip install tensorflow
+#sudo -H python3 -m pip install ansible
+#sudo -H python3 -m pip install beautifulsoup4
+#sudo -H python3 -m pip install arrow
+#sudo -H python3 -m pip install rainbowstream
+#sudo -H python3 -m pip install tensorflow
 
 # Install Azure CLI Extensions
 sudo su - $USERNAME -c 'az bicep install'
