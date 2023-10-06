@@ -26,8 +26,8 @@ resource "random_id" "random_id" {
 
 # This is the name of your Key Vault and the RG it resides in
 data "azurerm_key_vault" "main" {
-  name                = "kv-ssh-key-vrimiwj1"
-  resource_group_name = "rg-kv-vrimiwj1"
+  name                = var.key_vault_name
+  resource_group_name = var.key_vault_resource_group_name
 }
 
 # Create a secret (ssh public key) in the key vault
