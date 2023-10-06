@@ -80,16 +80,3 @@ resource azurerm_key_vault_secret ssh_private_key {
   name         = "ssh-private-key"
   value        = tls_private_key.main.private_key_pem
 }
-
-# Save the private key to your local machine
-# Save the public key to your your Azure VM
-# We use the private key to connect to the Azure VM
-#resource "local_file" "ssh-private-key" {
-#  content = azurerm_key_vault_secret.ssh_private_key.value
-#  filename = "${path.module}/ssh/${var.ssh_key_name}.pem"
-#}
-#resource "local_file" "ssh-public-key" {
-#  content = azurerm_key_vault_secret.ssh_public_key.value
-#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
-#}
-
