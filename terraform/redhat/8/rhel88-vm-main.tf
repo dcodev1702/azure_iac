@@ -24,6 +24,7 @@ resource "random_id" "random_id" {
   byte_length = 8
 }
 
+# This is the name of your Key Vault and the RG it resides in
 data "azurerm_key_vault" "main" {
   name                = "kv-ssh-key-vrimiwj1"
   resource_group_name = "rg-kv-vrimiwj1"
