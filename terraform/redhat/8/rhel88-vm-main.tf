@@ -170,8 +170,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
       hostname     = self.public_ip_address
       user         = var.linux_username
       username     = data.external.host_username.result.username
-      identityfile = data.azurerm_key_vault_secret.ssh_private_key.value
-      #identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}")
+      identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}")
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
