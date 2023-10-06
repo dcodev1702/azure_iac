@@ -5,9 +5,16 @@ vm_subnet_cidr    = "10.120.1.0/24"
 # Linux VM
 linux_vm_size  = "Standard_D2as_v4"
 linux_username = "dcodev"
-
-# ssh-keygen -t rsa -b 4096 -f ~/.ssh/rhel88-rsyslog-azure
 ssh_key_name   = "rhel88-rsyslog-azure"
+
+# Network Security Group Rules
+ssh_port   = "22"
+syslog_tcp = "20514"
+syslog_udp = "514"
+
+# Data Collection Rule & Association
+syslog_dcr_name = "Linux-Syslog-0"
+dcr_resource_group_name = "sec_telem_law_1"
 
 # Azure Login via Service Principal (SP)
 # export SUBSCRIPTION_ID="ENTER_YOUR_SUBSCRIPTION_ID"
