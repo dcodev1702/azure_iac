@@ -22,14 +22,6 @@ terraform {
       source  = "hashicorp/http"
       version = "~> 3.4.0"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "~> 3.2.1"
-    }
-    external = {
-      source  = "hashicorp/external"
-      version = "~> 2.3.1"
-    }
   }
 }
 
@@ -41,7 +33,7 @@ provider "azurerm" {
       recover_soft_deleted_key_vaults = true
     }
   }
-  environment     = "public"
+  environment     = "public"  # Cloud Environment [public, usgovernment]
   subscription_id = var.azure_subscription_id
   client_id       = var.azure_client_id
   client_secret   = var.azure_client_secret
