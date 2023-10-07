@@ -9,7 +9,7 @@ resource "random_string" "rstring" {
 
 resource "azurerm_resource_group" "rhel88-vm-rg" {
   name     = "rhel88-vm-tf-rg-${random_string.rstring.result}"
-  location = "eastus"
+  location = var.location
   tags = {
     environment = var.tag_env
   }
