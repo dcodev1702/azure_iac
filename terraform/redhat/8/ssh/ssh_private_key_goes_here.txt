@@ -1,1 +1,1 @@
-SSH private key will reside in this directory upon successful provisioning.
+SSH private key stored in Azure Key Vault will reside in this directory upon successful provisioning.
