@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.75.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0.4"
+    }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.5.1"
@@ -26,6 +30,12 @@ terraform {
       source  = "hashicorp/external"
       version = "~> 2.3.1"
     }
+  }
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-devops" 
+    storage_account_name = "satfdevops07695"
+    container_name       = "tfstate"
+    key                  = "rhel88-vm-syslog.tfstate"
   }
 }
 
