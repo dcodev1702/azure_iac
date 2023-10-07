@@ -41,20 +41,6 @@ data "azurerm_key_vault_secret" "ssh_private_key" {
   key_vault_id = data.azurerm_key_vault.main.id
 }
 
-# Save the private key to your local machine
-# Save the public key to your your Azure VM
-# We use the private key to connect to the Azure VM
-#resource "local_file" "rhel88-private-key" {
-#  content = azurerm_key_vault_secret.ssh_private_key.value
-  #content  = tls_private_key.main.private_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}"
-#}
-#resource "local_file" "rhel88-public-key" {
-#  content = azurerm_key_vault_secret.ssh_public_key.value
-  #content  = tls_private_key.main.public_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
-#}
-
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
@@ -178,6 +164,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   admin_username = var.linux_username
   custom_data    = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.linux_username}" }))
 
+  # This is so you can remotely connect VSCode to this VM!  You're welcome.
   provisioner "local-exec" {
     command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
@@ -189,6 +176,9 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
   }
 
+  # Copy 00-remotelog.conf to /home/username and from there, the script (init_script.tpl)
+  # moves 00-remotelog.conf to /etc/rsyslog.d/ and sets the correct SELINUX label on the file
+  # This conf file enables syslog for remote clients at /var/log/remote/[auth|msg]/hostname
   provisioner "file" {
     source      = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
     destination = "/home/${var.linux_username}/00-remotelog.conf"
@@ -244,12 +234,13 @@ output "public_ip_address" {
   value = "${azurerm_linux_virtual_machine.rhel88-vm.name}: ${data.azurerm_public_ip.rhel88-vm-ip-data.ip_address}"
 }
 
-# We use the private key to connect to the Azure VM
+# Dump the private key to disk to SSH to the Azure VM
 resource "local_file" "vm-ssh-private-key" {
   content = data.azurerm_key_vault_secret.ssh_private_key.value
   filename = "${path.module}/ssh/${var.ssh_key_name}.pem"
 }
 
+# Set the permissions (chmod 400) to the SSH private key
 resource "null_resource" "set-perms-ssh_key" {
   depends_on = [local_file.vm-ssh-private-key]
   provisioner "local-exec" {
