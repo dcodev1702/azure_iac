@@ -6,6 +6,7 @@ vm_subnet_cidr    = "10.120.1.0/24"
 linux_vm_size  = "Standard_D2as_v4"
 linux_username = "dcodev"
 ssh_key_name   = "rhel88-rsyslog-azure"
+location       = "eastus"
 
 # Network Security Group Rules
 ssh_port   = "22"
