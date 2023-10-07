@@ -24,7 +24,6 @@ resource "random_id" "random_id" {
   byte_length = 8
 }
 
-# This is the name of your Key Vault and the RG it resides in
 data "azurerm_key_vault" "main" {
   name                = var.key_vault_name
   resource_group_name = var.key_vault_resource_group_name
@@ -41,6 +40,20 @@ data "azurerm_key_vault_secret" "ssh_private_key" {
   name         = "ssh-private-key"
   key_vault_id = data.azurerm_key_vault.main.id
 }
+
+# Save the private key to your local machine
+# Save the public key to your your Azure VM
+# We use the private key to connect to the Azure VM
+#resource "local_file" "rhel88-private-key" {
+#  content = azurerm_key_vault_secret.ssh_private_key.value
+  #content  = tls_private_key.main.private_key_openssh
+#  filename = "${path.module}/ssh/${var.ssh_key_name}"
+#}
+#resource "local_file" "rhel88-public-key" {
+#  content = azurerm_key_vault_secret.ssh_public_key.value
+  #content  = tls_private_key.main.public_key_openssh
+#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
+#}
 
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
@@ -170,7 +183,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
       hostname     = self.public_ip_address
       user         = var.linux_username
       username     = data.external.host_username.result.username
-      identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}")
+      identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}.pem")
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
