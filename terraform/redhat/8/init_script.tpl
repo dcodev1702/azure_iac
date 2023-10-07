@@ -28,6 +28,7 @@ sudo dnf install -y \
      btop \
      nnn
 
+
 # Copy the rsyslog config file to the correct location
 sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
 sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
@@ -53,13 +54,17 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
 sudo dnf install -y azure-cli
 
+# Install Terraform (RHEL 8)
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum install -y terraform
+
 # Update pip and install ansible and other popular python modules
 # sudo -H python3 -m pip install --upgrade pip
-#sudo -H python3 -m pip install ansible
-#sudo -H python3 -m pip install beautifulsoup4
-#sudo -H python3 -m pip install arrow
-#sudo -H python3 -m pip install rainbowstream
-#sudo -H python3 -m pip install tensorflow
+# sudo -H python3 -m pip install ansible
+# sudo -H python3 -m pip install beautifulsoup4
+# sudo -H python3 -m pip install arrow
+# sudo -H python3 -m pip install rainbowstream
+# sudo -H python3 -m pip install tensorflow
 
 # Install Azure CLI Extensions
 sudo su - $USERNAME -c 'az bicep install'
