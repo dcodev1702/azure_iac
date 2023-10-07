@@ -18,6 +18,10 @@ variable "tag_env" {
   type    = string
   default = "rhel88_syslog_collector"
 }
+variable "location" {
+  type    = string
+  default = "Azure Cloud Region"
+}
 variable "network_vnet_cidr" {
   type        = string
   description = "The CIDR of the network VNET"
