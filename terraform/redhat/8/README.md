@@ -4,7 +4,6 @@
 3. It is assumed [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) is installed. <br />
    * Requires Azure CLI when using Microsoft Azure
 
-
 ## Azure Login via Service Principal (SP)
 4. Create a Service Principal and fill out the following fields in terraform.tfvars <br />
 
