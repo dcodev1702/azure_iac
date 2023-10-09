@@ -7,10 +7,10 @@ resource random_string main {
   special = false
 }
 
-resource tls_private_key main {
-  algorithm  = "RSA"
-  rsa_bits   = 4096
-}
+#resource tls_private_key main {
+#  algorithm  = "RSA"
+#  rsa_bits   = 4096
+#}
 
 data azurerm_client_config current {}
 
@@ -44,9 +44,9 @@ data azuread_service_principal sp_app {
 
 resource azurerm_key_vault_access_policy sp_app {
   depends_on   = [
-    azurerm_key_vault.main, 
+    azurerm_key_vault.main,
     data.azuread_service_principal.sp_app
-  ]   
+  ]
   key_vault_id = azurerm_key_vault.main.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = data.azuread_service_principal.sp_app.object_id
@@ -58,25 +58,37 @@ resource azurerm_key_vault_access_policy sp_app {
 
 
 # Create a secret (ssh public key) in the key vault
-resource azurerm_key_vault_secret ssh_public_key {
-  depends_on   = [
-    azurerm_key_vault.main, 
-    tls_private_key.main, 
-    azurerm_key_vault_access_policy.sp_app
-  ]
-  key_vault_id = azurerm_key_vault.main.id
-  name         = "ssh-public-key"
-  value        = tls_private_key.main.public_key_openssh
-}
+#resource azurerm_key_vault_secret ssh_public_key {
+#  depends_on   = [
+#    azurerm_key_vault.main,
+#    tls_private_key.main,
+#    azurerm_key_vault_access_policy.sp_app
+#  ]
+#  key_vault_id = azurerm_key_vault.main.id
+#  name         = "ssh-public-key"
+#  value        = tls_private_key.main.public_key_openssh
+#}
 
 # Create a secret (ssh private key) in the key vault
-resource azurerm_key_vault_secret ssh_private_key {
-  depends_on   = [
-    azurerm_key_vault.main, 
-    tls_private_key.main, 
-    azurerm_key_vault_access_policy.sp_app
-  ]
-  key_vault_id = azurerm_key_vault.main.id
-  name         = "ssh-private-key"
-  value        = tls_private_key.main.private_key_pem
-}
+#resource azurerm_key_vault_secret ssh_private_key {
+#  depends_on   = [
+#    azurerm_key_vault.main,
+#    tls_private_key.main,
+#    azurerm_key_vault_access_policy.sp_app
+#  ]
+#  key_vault_id = azurerm_key_vault.main.id
+#  name         = "ssh-private-key"
+#  value        = tls_private_key.main.private_key_pem
+#}
+
+# Save the private key to your local machine
+# Save the public key to your your Azure VM
+# We use the private key to connect to the Azure VM
+#resource "local_file" "ssh-private-key" {
+#  content = azurerm_key_vault_secret.ssh_private_key.value
+#  filename = "${path.module}/ssh/${var.ssh_key_name}.pem"
+#}
+#resource "local_file" "ssh-public-key" {
+#  content = azurerm_key_vault_secret.ssh_public_key.value
+#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
+#}
