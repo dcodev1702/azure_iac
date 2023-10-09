@@ -54,3 +54,10 @@ resource azurerm_key_vault_access_policy sp_app {
     "Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"
   ]
 }
+
+# Output name of Key Vault and add to variable.tf and terraform.tfvars
+# for Ubuntu and RHEL VM's so you can create and store SSH Keys in this Key Vault.
+output key_vault_name {
+  description = "Name of newly created Key Vault that will store SSH Keys (secrets)"
+  value       = azure_key_vault.main.name
+}
