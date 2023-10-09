@@ -2,9 +2,9 @@ variable "tag_env" {
   type    = string
   description = "Environment Tag"
 }
-variable "ssh_key_name" {
+variable "key_vault_name" {
   type        = string
-  description = "SSH Public Key Name"
+  description = "Name of Key Vault"
 }
 variable "kv_location" {
   type        = string
