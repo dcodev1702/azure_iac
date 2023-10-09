@@ -14,6 +14,7 @@ az login --use-device-code
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 ```
 
+## Fill out these values in terraform.tfvars for Key Vault, RedHat 8/backend, and RedHat 8.
 :: terraform.tfvars :: <br />
 azure_subscription_id = "YOUR_SUBSCRIPTION_ID" <br />
 azure_client_id       = "YOUR_CLIENT(APP)_ID" <br />
