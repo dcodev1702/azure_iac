@@ -24,8 +24,8 @@ azure_tenant_id       = "YOUR_TENANT_ID" <br />
 <br />
 
 ## Terraform Build Order
-* Key Vault
-* Backend (Azure Storage Account for tfstate)
+* Key Vault provisoning
+* Backend (Azure Storage Account provisioning for tfstate)
 * RedHat 8.8 provisioning
 
 <br />
