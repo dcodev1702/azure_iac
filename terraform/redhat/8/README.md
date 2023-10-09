@@ -48,7 +48,7 @@ terraform apply -auto-approve
 ```
 
 ```console
-ssh -i ./ssh/rhel88-rsyslog-azure dcodev@<RHEL88-VM-PUBLIC-IP>
+ssh -i ./ssh/rhel88-rsyslog-azure.pem dcodev@<RHEL88-VM-PUBLIC-IP>
 ```
 <br />
 
