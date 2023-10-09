@@ -19,6 +19,12 @@ terraform {
       version = "~> 3.4.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform-devops"
+    storage_account_name = "satfdevops07695"
+    container_name       = "tfstate"
+    key                  = "key-vault-vm-ssh-keys.tfstate"
+  }
 }
 
 # Configure the Azure provider
