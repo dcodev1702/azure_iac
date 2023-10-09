@@ -40,7 +40,6 @@ resource azurerm_key_vault_secret ssh_public_key {
   depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
   key_vault_id = data.azurerm_key_vault.main.id
   name         = "${local.hostname}-ssh-public-key"
-  #name        = "ssh-public-key"
   value        = tls_private_key.main.public_key_openssh
 }
 
@@ -49,35 +48,8 @@ resource azurerm_key_vault_secret ssh_private_key {
   depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
   key_vault_id = data.azurerm_key_vault.main.id
   name         = "${local.hostname}-ssh-private-key"
-  #name        = "ssh-private-key"
   value        = tls_private_key.main.private_key_pem
 }
-
-# Create a secret (ssh public key) in the key vault
-#data "azurerm_key_vault_secret" "ssh_public_key" {
-#  name         = "ssh-public-key"
-#  key_vault_id = data.azurerm_key_vault.main.id
-#}
-
-# Create a secret (ssh private key) in the key vault
-#data "azurerm_key_vault_secret" "ssh_private_key" {
-#  name         = "ssh-private-key"
-#  key_vault_id = data.azurerm_key_vault.main.id
-#}
-
-# Save the private key to your local machine
-# Save the public key to your your Azure VM
-# We use the private key to connect to the Azure VM
-#resource "local_file" "rhel88-private-key" {
-#  content = azurerm_key_vault_secret.ssh_private_key.value
-  #content  = tls_private_key.main.private_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}"
-#}
-#resource "local_file" "rhel88-public-key" {
-#  content = azurerm_key_vault_secret.ssh_public_key.value
-  #content  = tls_private_key.main.public_key_openssh
-#  filename = "${path.module}/ssh/${var.ssh_key_name}.pub"
-#}
 
 resource "azurerm_virtual_network" "rhel88-vm-vnet" {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
@@ -142,12 +114,14 @@ resource "azurerm_network_security_group" "rhel88-vm-nsg" {
     destination_address_prefix = "*"
   }
 }
+
 # Associate the linux NSG with the subnet
 resource "azurerm_subnet_network_security_group_association" "rhel88-vm-nsg-association" {
   depends_on                = [azurerm_resource_group.rhel88-vm-rg]
   subnet_id                 = azurerm_subnet.rhel88-vm-subnet.id
   network_security_group_id = azurerm_network_security_group.rhel88-vm-nsg.id
 }
+
 # Get a Static Public IP
 resource "azurerm_public_ip" "rhel88-vm-ip" {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
@@ -156,6 +130,7 @@ resource "azurerm_public_ip" "rhel88-vm-ip" {
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   allocation_method   = "Static"
 }
+
 # Create Network Card for linux VM
 resource "azurerm_network_interface" "rhel88-vm-nic" {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
@@ -170,6 +145,7 @@ resource "azurerm_network_interface" "rhel88-vm-nic" {
     public_ip_address_id          = azurerm_public_ip.rhel88-vm-ip.id
   }
 }
+
 # Create Linux VM with linux server
 resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   depends_on            = [
