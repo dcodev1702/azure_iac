@@ -22,6 +22,13 @@ azure_client_secret   = "YOUR_CLIENT_SECRET" <br />
 azure_tenant_id       = "YOUR_TENANT_ID" <br />
 
 <br />
+## Terraform Build Order
+   * Key Vault
+   * Backend (Azure Storage Account for tfstate)
+   * RedHat 8.8 provisioning
+
+<br />
+
 
 ```console
 terraform init
