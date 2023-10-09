@@ -12,7 +12,7 @@ data azurerm_client_config current {}
 
 resource azurerm_resource_group main {
   name     = "rg-kv-${random_string.main.result}"
-  location = var.kv_location
+  location = var.key_vault_location
   tags = {
     environment = var.tag_env
   }
@@ -20,8 +20,8 @@ resource azurerm_resource_group main {
 
 # Create Key Vault where SSH Keys will be stored (secrets)
 resource azurerm_key_vault main {
-  name                            = "-${random_string.main.result}"
-  location                        = var.kv_location
+  name                            = "${var.key_vault_name}-${random_string.main.result}"
+  location                        = azurerm_resource_group.main.location
   resource_group_name             = azurerm_resource_group.main.name
   tenant_id                       = data.azurerm_client_config.current.tenant_id
   enabled_for_template_deployment = true
