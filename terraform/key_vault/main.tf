@@ -20,7 +20,7 @@ resource azurerm_resource_group main {
 
 # Create Key Vault where SSH Keys will be stored (secrets)
 resource azurerm_key_vault main {
-  name                            = "kv-ssh-key-${random_string.main.result}"
+  name                            = "-${random_string.main.result}"
   location                        = var.kv_location
   resource_group_name             = azurerm_resource_group.main.name
   tenant_id                       = data.azurerm_client_config.current.tenant_id
