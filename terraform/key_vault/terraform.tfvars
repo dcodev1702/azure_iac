@@ -1,6 +1,6 @@
 # SSH Key
 ssh_key_name = "kv-ssh-vm"
-tag_env      = "keyvault_ssh_key"
+tag_env      = "key_vault_ssh_key"
 kv_location  = "eastus"
 
 # Azure Login via Service Principal (SP)
