@@ -7,6 +7,7 @@ resource "random_string" "rstring" {
   special = false
 }
 
+# Provision Resource Group (RG) for RHEL 8 deployment
 resource "azurerm_resource_group" "rhel88-vm-rg" {
   depends_on = [random_string.rstring]
   name       = "rhel88-vm-tf-rg-${random_string.rstring.result}"
@@ -25,11 +26,13 @@ resource "random_id" "random_id" {
   byte_length = 8
 }
 
+# Bring in Key Vault where SSH keys will reside
 data "azurerm_key_vault" "main" {
   name                = var.key_vault_name
   resource_group_name = var.key_vault_resource_group_name
 }
 
+# SSH Key Cipher / Strength
 resource tls_private_key main {
   algorithm  = "RSA"
   rsa_bits   = 4096
