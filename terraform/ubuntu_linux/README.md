@@ -25,28 +25,15 @@ az login
 https://developer.hashicorp.com/terraform/downloads
 ```
 
-3. Provision SSH Key [Windows | Linux] <br />
 
-   `3a. Provision SSH Key on a Windows Host`
-   ```PowerShell
-   ssh-keygen -t rsa -b 4096 -f "$env:SYSTEMDRIVE$env:HOMEPATH\.ssh\secOpsAzureKey"
-   ```
-   
-
-   `3b. Provision SSH Key on a Linux Host`
-    ```PowerShell
-    ssh-keygen -t rsa -b 4096 -f ~/.ssh/secOpsAzureKey
-    ```
-
-
-4. Download Github Repository
+3. Download Github Repository
 ```code
 git clone https://github.com/dcodev1702/azure_iac.git
 ```
 
-5. Modify Terraform variables as required
+4. Modify Terraform variables as required
 
-* Modify variables.tf file  <br />
+* Modify variables.tf and terraform.tfvars files  <br />
   - change the value for 'end_user' variable <br />
   ![image](https://user-images.githubusercontent.com/32214072/233409779-06ab855e-7536-4088-8372-1b4f3df37b18.png)
 
@@ -60,27 +47,27 @@ git clone https://github.com/dcodev1702/azure_iac.git
 terraform fmt
 ```
 
-6. Initialize Terraform (Azure -> Linux VM)
+5. Initialize Terraform (Azure -> Linux VM)
 ```code
 terraform init
 ```
 
-7. Verify Terraform Plan is compliant with sanity checks
+6. Verify Terraform Plan is compliant with sanity checks
 ```code
 terraform plan
 ```
 
-8. Provision and deploy Azure resources and Ubuntu 22.04 VM
+7. Provision and deploy Azure resources and Ubuntu 22.04 VM
 ```code
 terraform apply -auto-approve
 ```
 
-9. SSH into your newly provisioned Linux VM
+8. SSH into your newly provisioned Linux VM
 ```code
-ssh -i ~/.ssh/secOpsAzureKey <username>@<VM-PUBLIC-IP>
+ssh -i ssh/secOpsAzureKey <username>@<VM-PUBLIC-IP>
 ```
 
-10. Connect VSCode via SSH
+9. Connect VSCode via SSH
 
 Select 'Connect to Host' (via SSH [~/.ssh/config])
 
