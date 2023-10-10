@@ -244,6 +244,14 @@ resource "null_resource" "create_ssh_dir" {
 }
 
 # We use the private key to connect to the Azure VM
+resource "local_sensitive_file" "vm-ssh-private-key" {
+  depends_on      = [azurerm_key_vault_secret.ssh_private_key]
+  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  file_permission = 0400
+  content         = azurerm_key_vault_secret.ssh_private_key.value
+}
+
+# We use the private key to connect to the Azure VM
 resource "local_file" "vm-ssh-private-key" {
   depends_on = [null_resource.create_ssh_dir] 
   content    = azurerm_key_vault_secret.ssh_private_key.value
