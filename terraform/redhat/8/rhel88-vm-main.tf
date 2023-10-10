@@ -232,10 +232,22 @@ data "external" "os" {
   program     = ["printf", "{\"os\": \"linux\"}"]
 }
 
+resource "null_resource" "create_ssh_dir" {
+  depends_on = [azurerm_key_vault_secret.ssh_private_key]
+  provisioner "local-exec" {
+    command = "mkdir -p ${path.module}/ssh"
+    interpreter = ["bash", "-c"]
+  }
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
+
 # We use the private key to connect to the Azure VM
 resource "local_file" "vm-ssh-private-key" {
-  content  = azurerm_key_vault_secret.ssh_private_key.value
-  filename = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  depends_on = [null_resource.create_ssh_dir] 
+  content    = azurerm_key_vault_secret.ssh_private_key.value
+  filename   = "${path.module}/ssh/${var.ssh_key_name}.pem"
 }
 
 resource "null_resource" "set-perms-ssh_key" {
