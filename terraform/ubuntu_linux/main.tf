@@ -86,7 +86,7 @@ resource azurerm_network_security_rule secops-dev-ssh-rule {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "${chomp(data.http.wan-ip.response_body)}/32"
+  source_address_prefix       = "${chomp(data.http.wan_ip.response_body)}/32"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.secops.name
   network_security_group_name = azurerm_network_security_group.secops-nsg.name
@@ -181,13 +181,7 @@ locals {
   hostname = "secops-vm-tf-${random_string.rstring.result}"
 }
 
-
-data azurerm_public_ip secops_ip-data {
-  name                = azurerm_public_ip.secops_ip.name
-  resource_group_name = azurerm_resource_group.secops.name
-}
-
-data http wan-ip {
+data http wan_ip {
   url = "http://ipv4.icanhazip.com"
 }
 
