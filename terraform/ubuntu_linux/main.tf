@@ -1,5 +1,5 @@
 # Generate a random vm name
-resource "random_string" "rstring" {
+resource random_string rstring {
   length  = 8
   upper   = false
   numeric = true
@@ -7,7 +7,7 @@ resource "random_string" "rstring" {
   special = false
 }
 
-resource "azurerm_resource_group" "secops" {
+resource azurerm_resource_group secops {
   depends_on = [random_string.rstring]
   name       = "secops-vm-tf-rg-${random_string.rstring.result}"
   location   = var.location
@@ -16,16 +16,16 @@ resource "azurerm_resource_group" "secops" {
   }
 }
 
-resource "random_uuid" "get-uuid" {}
+resource random_uuid get-uuid {}
 
-resource "random_id" "random_id" {
+resource random_id random_id {
   keepers = {
     resource_group = azurerm_resource_group.secops.name
   }
   byte_length = 8
 }
 
-data "azurerm_key_vault" "main" {
+data azurerm_key_vault main {
   name                = var.key_vault_name
   resource_group_name = var.key_vault_resource_group_name
 }
@@ -52,7 +52,7 @@ resource azurerm_key_vault_secret ssh_private_key {
 }
 
 
-resource "azurerm_virtual_network" "secops-vnet" {
+resource azurerm_virtual_network secops-vnet {
   name                = "secops-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.secops.name
   location            = azurerm_resource_group.secops.location
@@ -62,14 +62,14 @@ resource "azurerm_virtual_network" "secops-vnet" {
   }
 }
 
-resource "azurerm_subnet" "secops-subnet" {
+resource azurerm_subnet secops-subnet {
   name                 = "secops-tf-subnet-${random_id.random_id.hex}"
   resource_group_name  = azurerm_resource_group.secops.name
   virtual_network_name = azurerm_virtual_network.secops-vnet.name
   address_prefixes     = [var.vm_subnet_cidr]
 }
 
-resource "azurerm_network_security_group" "secops-nsg" {
+resource azurerm_network_security_group secops-nsg {
   name                = "secops-tf-nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
@@ -78,7 +78,7 @@ resource "azurerm_network_security_group" "secops-nsg" {
   }
 }
 
-resource "azurerm_network_security_rule" "secops-dev-ssh-rule" {
+resource azurerm_network_security_rule secops-dev-ssh-rule {
   name                        = "secops-tf-dev-ssh-rule"
   priority                    = 100
   direction                   = "Inbound"
@@ -86,18 +86,18 @@ resource "azurerm_network_security_rule" "secops-dev-ssh-rule" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "${chomp(data.http.my-home-ip.response_body)}/32"
+  source_address_prefix       = "${chomp(data.http.wan-ip.response_body)}/32"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.secops.name
   network_security_group_name = azurerm_network_security_group.secops-nsg.name
 }
 
-resource "azurerm_subnet_network_security_group_association" "secops-subnet-nsg" {
+resource azurerm_subnet_network_security_group_association secops-subnet-nsg {
   subnet_id                 = azurerm_subnet.secops-subnet.id
   network_security_group_id = azurerm_network_security_group.secops-nsg.id
 }
 
-resource "azurerm_public_ip" "secops_ip" {
+resource azurerm_public_ip secops_ip {
   name                = "secops-tf-ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
@@ -107,7 +107,7 @@ resource "azurerm_public_ip" "secops_ip" {
   }
 }
 
-resource "azurerm_network_interface" "secops-nic" {
+resource azurerm_network_interface secops-nic {
   depends_on = [ azurerm_public_ip.secops_ip ]
   name                = "secops-tf-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
@@ -124,7 +124,7 @@ resource "azurerm_network_interface" "secops-nic" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "secops-linux-vm" {
+resource azurerm_linux_virtual_machine secops-linux-vm {
   depends_on = [
     azurerm_network_interface.secops-nic,
     azurerm_key_vault_secret.ssh_public_key,
@@ -158,7 +158,7 @@ resource "azurerm_linux_virtual_machine" "secops-linux-vm" {
     version   = "latest"
   }
 
-  provisioner "local-exec" {
+  provisioner local-exec {
     command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.vm_username
@@ -182,32 +182,32 @@ locals {
 }
 
 
-data "azurerm_public_ip" "secops_ip-data" {
+data azurerm_public_ip secops_ip-data {
   name                = azurerm_public_ip.secops_ip.name
   resource_group_name = azurerm_resource_group.secops.name
 }
 
-data "http" "my-home-ip" {
+data http wan-ip {
   url = "http://ipv4.icanhazip.com"
 }
 
-data "external" "host_username" {
+data external host_username {
   program = local.os == "windows" ? ["powershell.exe", "-c", "${path.module}/get_host_user.ps1"] : ["bash", "${path.module}/get_host_user.sh"]
 }
 
-data "external" "os" {
+data external os {
   working_dir = path.module
   program     = ["printf", "{\"os\": \"linux\"}"]
 }
 
 # Provide the provisioned public IP address to the user via output (STDOUT)
-data "azurerm_public_ip" "secops" {
+data azurerm_public_ip secops {
   name                = azurerm_public_ip.secops_ip.name
   resource_group_name = azurerm_linux_virtual_machine.secops-linux-vm.resource_group_name
 }
 
 # We use the private key to SSH to the Azure VM
-resource "local_sensitive_file" "vm-ssh-private-key" {
+resource local_sensitive_file vm-ssh-private-key {
   depends_on      = [azurerm_key_vault_secret.ssh_private_key] 
   filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
   file_permission = 0400
