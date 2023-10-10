@@ -14,7 +14,7 @@ terraform {
 }
 
 # Configure the Azure provider
-provider "azurerm" {
+provider azurerm {
   features {}
   environment     = "public"
   subscription_id = var.azure_subscription_id
