@@ -1,10 +1,10 @@
 variable "vm_username" {
-  type    = string
-  default = "dcodev"
+  type        = string
+  description = "value for the vm username"
 }
 variable "tag_env" {
-  type    = string
-  default = "dev"
+  type        = string
+  description = "value for the environment tag"
 }
 variable "ssh_key_name" {
   type        = string
