@@ -4,5 +4,5 @@ on a Windows host. This gets the logged in username and
 converts a Key : Value pair into JSON.
 #>
 ConvertTo-Json @{
-  username = whoami.exe
+  username = (Get-ChildItem Env:\USERNAME).Value
 }
