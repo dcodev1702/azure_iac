@@ -1,59 +1,3 @@
-terraform {
-
-  required_providers {
-     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.75.0"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.0.4"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.5.1"
-    }
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.3.0"
-    }
-    http = {
-      source  = "hashicorp/http"
-      version = "~> 3.4.0"
-    }
-    null = {
-      source  = "hashicorp/null"
-      version = "~> 3.2.1"
-    }
-    external = {
-      source  = "hashicorp/external"
-      version = "~> 2.3.1"
-    }
-  }
-  backend "azurerm" {
-    resource_group_name  = "rg-terraform-devops"
-    storage_account_name = "satfdevops07695"
-    container_name       = "tfstate"
-    key                  = "secops-00-vm-syslog.tfstate"
-  }
-}
-
-# Configure the Azure provider
-provider "azurerm" {
-  features {
-    key_vault {
-      purge_soft_delete_on_destroy = true
-      recover_soft_deleted_key_vaults = true
-    }
-  }
-  environment     = "public" # Cloud Types: Public, USGovernment, etc
-  subscription_id = var.azure_subscription_id
-  client_id       = var.azure_client_id
-  client_secret   = var.azure_client_secret
-  tenant_id       = var.azure_tenant_id
-}
-
-
 # Generate a random vm name
 resource "random_string" "rstring" {
   length  = 8
@@ -164,6 +108,7 @@ resource "azurerm_public_ip" "secops_ip" {
 }
 
 resource "azurerm_network_interface" "secops-nic" {
+  depends_on = [ azurerm_public_ip.secops_ip ]
   name                = "secops-tf-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
@@ -180,7 +125,7 @@ resource "azurerm_network_interface" "secops-nic" {
 }
 
 resource "azurerm_linux_virtual_machine" "secops-linux-vm" {
-  depends_on            = [
+  depends_on = [
     azurerm_network_interface.secops-nic,
     azurerm_key_vault_secret.ssh_public_key,
     azurerm_key_vault_secret.ssh_private_key
@@ -231,8 +176,8 @@ resource "azurerm_linux_virtual_machine" "secops-linux-vm" {
 
 
 locals {
-  os      = data.external.os.result.os
-  host_os = local.os == "windows" ? "windows" : "linux"
+  os       = data.external.os.result.os
+  host_os  = local.os == "windows" ? "windows" : "linux"
   hostname = "secops-vm-tf-${random_string.rstring.result}"
 }
 
@@ -255,36 +200,16 @@ data "external" "os" {
   program     = ["printf", "{\"os\": \"linux\"}"]
 }
 
-# We use the private key to connect to the Azure VM
-resource "local_sensitive_file" "vm-ssh-private-key" {
-  depends_on      = [azurerm_key_vault_secret.ssh_private_key]
-  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
-  file_permission = 0400
-  content         = azurerm_key_vault_secret.ssh_private_key.value
-}
-
-
-output "host_username" {
-  value = data.external.host_username.result.username
-}
-
-output "local_host_os" {
-  value = local.host_os
-}
-
-output "vm_username_bash_script" {
-  value = var.vm_username
-}
-
-output "hostname_vm_tf" {
-  value = azurerm_linux_virtual_machine.secops-linux-vm.name
-}
-
+# Provide the provisioned public IP address to the user via output (STDOUT)
 data "azurerm_public_ip" "secops" {
   name                = azurerm_public_ip.secops_ip.name
   resource_group_name = azurerm_linux_virtual_machine.secops-linux-vm.resource_group_name
 }
 
-output "public_ip_address" {
-  value = data.azurerm_public_ip.secops.*.ip_address
+# We use the private key to SSH to the Azure VM
+resource "local_sensitive_file" "vm-ssh-private-key" {
+  depends_on      = [azurerm_key_vault_secret.ssh_private_key] 
+  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  file_permission = 0400
+  content         = azurerm_key_vault_secret.ssh_private_key.value
 }
