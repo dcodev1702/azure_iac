@@ -280,6 +280,11 @@ output "hostname_vm_tf" {
   value = azurerm_linux_virtual_machine.secops-linux-vm.name
 }
 
+data "azurerm_public_ip" "secops" {
+  name                = azurerm_public_ip.secops_ip.name
+  resource_group_name = azurerm_linux_virtual_machine.secops-linux-vm.resource_group_name
+}
+
 output "public_ip_address" {
-  value = azurerm_public_ip.secops_ip.*.ip_address
+  value = data.azurerm_public_ip.secops.*.ip_address
 }
