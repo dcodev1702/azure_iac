@@ -255,38 +255,13 @@ data "external" "os" {
   program     = ["printf", "{\"os\": \"linux\"}"]
 }
 
-resource "null_resource" "create_ssh_dir" {
-  depends_on = [azurerm_key_vault_secret.ssh_private_key]
-  provisioner "local-exec" {
-    command = "mkdir -p ${path.module}/ssh"
-    interpreter = ["bash", "-c"]
-  }
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
-
 # We use the private key to connect to the Azure VM
-resource "local_file" "vm-ssh-private-key" {
-  depends_on = [null_resource.create_ssh_dir] 
-  content    = azurerm_key_vault_secret.ssh_private_key.value
-  filename   = "${path.module}/ssh/${var.ssh_key_name}.pem"
+resource "local_sensitive_file" "vm-ssh-private-key" {
+  depends_on      = [azurerm_key_vault_secret.ssh_private_key]
+  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  file_permission = 0400
+  content         = azurerm_key_vault_secret.ssh_private_key.value
 }
-
-resource "null_resource" "set-perms-ssh_key" {
-  depends_on = [
-    local_file.vm-ssh-private-key,
-    null_resource.create_ssh_dir
-  ]
-  provisioner "local-exec" {
-    command = local.host_os == "linux" ? "chmod 400 ${path.module}/ssh/${var.ssh_key_name}.pem" : "icacls.exe ${path.module}\\ssh\\${var.ssh_key_name}.pem /inheritance:r"
-    interpreter = local.host_os == "linux" ? ["bash", "-c"] : ["powershell.exe", "-command"]
-  }
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
-
 
 
 output "host_username" {
