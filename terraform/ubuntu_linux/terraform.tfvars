@@ -1,13 +1,15 @@
 # Azure Core
-location = "eastus"
+vm_username  = "dcodev"
 ssh_key_name = "secops-linux-tf"
+location     = "eastus"
+tag_env      = "dev"
 
 # Network
 network_vnet_cidr = "10.123.0.0/16"
 vm_subnet_cidr    = "10.123.1.0/24"
 
 # Key Vault Information
-key_vault_name = "kv-vm-ssh-keys-0ftahiij"
+key_vault_name                = "kv-vm-ssh-keys-0ftahiij"
 key_vault_resource_group_name = "rg-kv-0ftahiij"
 
 # Azure Login via Service Principal (SP)
