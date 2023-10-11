@@ -4,12 +4,14 @@ basename                 = "secops-tf-"
 linux_vm_image_publisher = "Canonical"
 linux_vm_image_offer     = "0001-com-ubuntu-server-jammy" 
 ubun_22_04_gen2_sku      = "22_04-lts-gen2"
-syslog_server_vnet       = "rhel88-vm-tf-vnet-072bad5a20dd94cc"
-syslog_server_rg         = "rhel88-vm-tf-rg-hoa35ldd"
 vm_username              = "dcodev"
 ssh_key_name             = "secops-linux-tf"
 location                 = "eastus"
 tag_env                  = "dev"
+
+# Syslog Server VNET Peering
+syslog_server_vnet       = "rhel88-vm-tf-vnet-072bad5a20dd94cc"
+syslog_server_rg         = "rhel88-vm-tf-rg-hoa35ldd"
 
 # Network
 network_vnet_cidr = "10.123.0.0/16"
