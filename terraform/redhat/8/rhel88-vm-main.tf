@@ -1,5 +1,7 @@
-# Generate a random vm name
-resource "random_string" "rstring" {
+######################################################################
+# Boilerplate code for Terraform builds
+######################################################################
+resource random_string rstring {
   length  = 8
   upper   = false
   numeric = true
@@ -7,8 +9,20 @@ resource "random_string" "rstring" {
   special = false
 }
 
-# Provision Resource Group (RG) for RHEL 8 deployment
-resource "azurerm_resource_group" "rhel88-vm-rg" {
+resource random_uuid get-uuid {}
+
+resource random_id random_id {
+  keepers = {
+    resource_group = azurerm_resource_group.rhel88-vm-rg.name
+  }
+  byte_length = 8
+}
+
+
+######################################################################
+# Create a resource group (bedrock for all other resources)
+######################################################################
+resource azurerm_resource_group rhel88-vm-rg {
   depends_on = [random_string.rstring]
   name       = "rhel88-vm-tf-rg-${random_string.rstring.result}"
   location   = var.location
@@ -17,22 +31,15 @@ resource "azurerm_resource_group" "rhel88-vm-rg" {
   }
 }
 
-resource "random_uuid" "get-uuid" {}
 
-resource "random_id" "random_id" {
-  keepers = {
-    resource_group = azurerm_resource_group.rhel88-vm-rg.name
-  }
-  byte_length = 8
-}
-
-# Bring in Key Vault where SSH keys will reside
-data "azurerm_key_vault" "main" {
+######################################################################
+# Obtain provisioned key vault; Generate & store ssh keys in key vault
+######################################################################
+data azurerm_key_vault main {
   name                = var.key_vault_name
   resource_group_name = var.key_vault_resource_group_name
 }
 
-# SSH Key Cipher / Strength
 resource tls_private_key main {
   algorithm  = "RSA"
   rsa_bits   = 4096
@@ -54,7 +61,11 @@ resource azurerm_key_vault_secret ssh_private_key {
   value        = tls_private_key.main.private_key_pem
 }
 
-resource "azurerm_virtual_network" "rhel88-vm-vnet" {
+
+####################################################################
+# Create a virtual network, subnet, NSG, public IP, & NIC for the VM
+####################################################################
+resource azurerm_virtual_network rhel88-vm-vnet {
   name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   location            = azurerm_resource_group.rhel88-vm-rg.location
@@ -65,7 +76,7 @@ resource "azurerm_virtual_network" "rhel88-vm-vnet" {
 }
 
 # Create a subnet for Network
-resource "azurerm_subnet" "rhel88-vm-subnet" {
+resource azurerm_subnet rhel88-vm-subnet {
   name                 = "rhel88-vm-tf-subnet"
   address_prefixes     = [var.vm_subnet_cidr]
   virtual_network_name = azurerm_virtual_network.rhel88-vm-vnet.name
@@ -73,7 +84,7 @@ resource "azurerm_subnet" "rhel88-vm-subnet" {
 }
 
 # Create Security Group to access linux
-resource "azurerm_network_security_group" "rhel88-vm-nsg" {
+resource azurerm_network_security_group rhel88-vm-nsg {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
   name                = "rhel88-vm-tf-nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
@@ -119,14 +130,14 @@ resource "azurerm_network_security_group" "rhel88-vm-nsg" {
 }
 
 # Associate the linux NSG with the subnet
-resource "azurerm_subnet_network_security_group_association" "rhel88-vm-nsg-association" {
+resource azurerm_subnet_network_security_group_association rhel88-vm-nsg-association {
   depends_on                = [azurerm_resource_group.rhel88-vm-rg]
   subnet_id                 = azurerm_subnet.rhel88-vm-subnet.id
   network_security_group_id = azurerm_network_security_group.rhel88-vm-nsg.id
 }
 
 # Get a Static Public IP
-resource "azurerm_public_ip" "rhel88-vm-ip" {
+resource azurerm_public_ip rhel88-vm-ip {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
   name                = "rhel88-vm-tf-ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
@@ -135,7 +146,7 @@ resource "azurerm_public_ip" "rhel88-vm-ip" {
 }
 
 # Create Network Card for linux VM
-resource "azurerm_network_interface" "rhel88-vm-nic" {
+resource azurerm_network_interface rhel88-vm-nic {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
   name                = "rhel88-vm-tf-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
@@ -149,8 +160,11 @@ resource "azurerm_network_interface" "rhel88-vm-nic" {
   }
 }
 
-# Create Linux VM with linux server
-resource "azurerm_linux_virtual_machine" "rhel88-vm" {
+
+####################################################################
+# Create a Linux VM and provision the public SSH key
+####################################################################
+resource azurerm_linux_virtual_machine rhel88-vm {
   depends_on            = [
     azurerm_network_interface.rhel88-vm-nic,
     azurerm_key_vault_secret.ssh_public_key,
@@ -181,7 +195,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   admin_username = var.linux_username
   custom_data    = base64encode(templatefile("${path.module}/init_script.tpl", { VM_USERNAME = "${var.linux_username}" }))
 
-  provisioner "local-exec" {
+  provisioner local-exec {
     command = templatefile("${local.host_os}_ssh_vscode.tpl", {
       hostname     = self.public_ip_address
       user         = var.linux_username
@@ -192,7 +206,7 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
   }
 
-  provisioner "file" {
+  provisioner file {
     source      = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
     destination = "/home/${var.linux_username}/00-remotelog.conf"
     connection {
@@ -208,47 +222,58 @@ resource "azurerm_linux_virtual_machine" "rhel88-vm" {
   }
 }
 
+
+#####################################################################
+# Write private SSH key to local file [ssh/${var.ssh_key_name}.pem]
+#####################################################################
+resource local_sensitive_file vm-ssh-private-key {
+  depends_on      = [azurerm_key_vault_secret.ssh_private_key]
+  file_permission = 0400
+  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  content         = azurerm_key_vault_secret.ssh_private_key.value
+}
+
+
+####################################################################
+# Data Collection Rule (Syslog) Association
+####################################################################
+data azurerm_monitor_data_collection_rule syslog-dcr {
+  name                = var.syslog_dcr_name
+  resource_group_name = var.dcr_resource_group_name
+}
+
+# Associate the Data Collection Rule (Syslog) w/ Linux VM (Resource)
+resource azurerm_monitor_data_collection_rule_association syslog-dcra {
+  depends_on = [data.azurerm_monitor_data_collection_rule.syslog-dcr]
+  name                    = "dcra-${azurerm_linux_virtual_machine.rhel88-vm.name}"
+  target_resource_id      = azurerm_linux_virtual_machine.rhel88-vm.id
+  data_collection_rule_id = data.azurerm_monitor_data_collection_rule.syslog-dcr.id
+}
+
+
+##########################################################
+# Local variables and data sources
+##########################################################
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
   hostname = "rhel88-vm-syslog-tf-${random_string.rstring.result}"
 }
 
-data "azurerm_public_ip" "rhel88-vm-ip-data" {
+data azurerm_public_ip rhel88-vm-ip-data {
   name                = azurerm_public_ip.rhel88-vm-ip.name
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
 }
 
-data "http" "my-home-ip" {
+data http my-home-ip {
   url = "https://ipv4.icanhazip.com"
 }
 
-data "external" "host_username" {
+data external host_username {
   program = local.os == "windows" ? ["powershell.exe", "-c", "${path.module}/get_host_user.ps1"] : ["bash", "${path.module}/get_host_user.sh"]
 }
 
-data "external" "os" {
+data external os {
   working_dir = path.module
   program     = ["printf", "{\"os\": \"linux\"}"]
-}
-
-# We use the private key to connect to the Azure VM
-resource "local_sensitive_file" "vm-ssh-private-key" {
-  depends_on      = [azurerm_key_vault_secret.ssh_private_key]
-  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
-  file_permission = 0400
-  content         = azurerm_key_vault_secret.ssh_private_key.value
-}
-
-# Identify the Data Collection Rule (Syslog) for association
-data azurerm_monitor_data_collection_rule syslog-dcr {
-  name                = var.syslog_dcr_name
-  resource_group_name = var.dcr_resource_group_name
-}
-
-# Associate the Data Collection Rule (Syslog) with the Linux VM
-resource azurerm_monitor_data_collection_rule_association syslog-dcra {
-  name                    = "dcra-${azurerm_linux_virtual_machine.rhel88-vm.name}"
-  target_resource_id      = azurerm_linux_virtual_machine.rhel88-vm.id
-  data_collection_rule_id = data.azurerm_monitor_data_collection_rule.syslog-dcr.id
 }
