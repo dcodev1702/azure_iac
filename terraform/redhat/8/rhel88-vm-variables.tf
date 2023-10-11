@@ -1,17 +1,14 @@
 variable linux_vm_image_publisher {
   type        = string
   description = "Virtual machine source image publisher"
-  default     = "RedHat"
 }
 variable linux_vm_image_offer {
   type        = string
   description = "Virtual machine source image offer"
-  default     = "RHEL"
 }
 variable rhel_8_8_gen2_sku {
   type        = string
   description = "SKU for RHEL 8.8 Gen2"
-  default     = "88-gen2"
 }
 variable location {
   type        = string
