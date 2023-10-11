@@ -163,7 +163,7 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
       hostname     = self.public_ip_address
       user         = var.vm_username
       username     = data.external.host_username.result.username
-      identityfile = pathexpand("${path.module}/ssh/${var.ssh_key_name}.pem")
+      identityfile = pathexpand("${path.cwd}/ssh/${var.ssh_key_name}.pem")
     })
 
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
