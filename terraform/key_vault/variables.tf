@@ -1,5 +1,5 @@
 variable tag_env {
-  type    = string
+  type        = string
   description = "Environment Tag"
 }
 variable key_vault_name {
