@@ -152,6 +152,12 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
   }
 
   source_image_reference {
+    publisher = var.linux_vm_image_publisher
+    offer     = var.linux_vm_image_offer
+    sku       = var.ubun_22_04_gen2_sku
+    version   = "latest"
+  }
+  source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts-gen2"
