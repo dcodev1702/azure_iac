@@ -9,7 +9,7 @@ resource random_string rstring {
 
 resource azurerm_resource_group secops {
   depends_on = [random_string.rstring]
-  name       = "${basename}rg-${random_string.rstring.result}"
+  name       = "${var.basename}rg-${random_string.rstring.result}"
   location   = var.location
   tags = {
     environment = var.tag_env
@@ -53,7 +53,7 @@ resource azurerm_key_vault_secret ssh_private_key {
 
 
 resource azurerm_virtual_network secops-vnet {
-  name                = "${basename}vnet-${random_id.random_id.hex}"
+  name                = "${var.basename}vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.secops.name
   location            = azurerm_resource_group.secops.location
   address_space       = [var.network_vnet_cidr]
@@ -63,14 +63,14 @@ resource azurerm_virtual_network secops-vnet {
 }
 
 resource azurerm_subnet secops-subnet {
-  name                 = "${basename}subnet-${random_id.random_id.hex}"
+  name                 = "${var.basename}subnet-${random_id.random_id.hex}"
   resource_group_name  = azurerm_resource_group.secops.name
   virtual_network_name = azurerm_virtual_network.secops-vnet.name
   address_prefixes     = [var.vm_subnet_cidr]
 }
 
 resource azurerm_network_security_group secops-nsg {
-  name                = "${basename}nsg-${random_id.random_id.hex}"
+  name                = "${var.basename}nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
   tags = {
@@ -79,7 +79,7 @@ resource azurerm_network_security_group secops-nsg {
 }
 
 resource azurerm_network_security_rule secops-dev-ssh-rule {
-  name                        = "${basename}ssh-rule"
+  name                        = "${var.basename}ssh-rule"
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
@@ -98,7 +98,7 @@ resource azurerm_subnet_network_security_group_association secops-subnet-nsg {
 }
 
 resource azurerm_public_ip secops_ip {
-  name                = "${basename}ip-${random_id.random_id.hex}"
+  name                = "${var.basename}ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
   allocation_method   = "Dynamic"
@@ -109,7 +109,7 @@ resource azurerm_public_ip secops_ip {
 
 resource azurerm_network_interface secops-nic {
   depends_on = [ azurerm_public_ip.secops_ip ]
-  name                = "${basename}nic-${random_id.random_id.hex}"
+  name                = "${var.basename}nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.secops.location
   resource_group_name = azurerm_resource_group.secops.name
 
@@ -145,7 +145,7 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
   }
 
   os_disk {
-    name                 = "${basename}vm-osdisk-${random_id.random_id.hex}"
+    name                 = "${var.basename}vm-osdisk-${random_id.random_id.hex}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
     disk_size_gb         = "80"
@@ -178,7 +178,7 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
-  hostname = "${basename}vm-${random_string.rstring.result}"
+  hostname = "${var.basename}vm-${random_string.rstring.result}"
 }
 
 data http wan_ip {
