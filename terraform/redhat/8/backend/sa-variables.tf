@@ -23,6 +23,6 @@ variable sa_container_name {
   description = "Azure Storage Account Container Name"
 }
 variable tag_env {
-  type    = string
-  default = "terraform backend storage"
+  type        = string
+  default     = "terraform backend storage"
 }
