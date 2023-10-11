@@ -1,3 +1,15 @@
+variable linux_vm_image_publisher {
+  type        = string
+  description = "Linux Distro"
+}
+linux_vm_image_offer  {
+  type        = string
+  description = "Linux Image Offer"
+}
+ubun_22_04_gen2_sku {
+  type        = string
+  description = "Linux Gen - SKU"
+}
 variable linux_vm_size {
   type        = string
   description = "Linux VM Size"
