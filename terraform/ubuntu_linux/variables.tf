@@ -2,7 +2,7 @@ variable linux_vm_image_publisher {
   type        = string
   description = "Linux Distro"
 }
-variable linux_vm_image_offer  {
+variable linux_vm_image_offer {
   type        = string
   description = "Linux Image Offer"
 }
