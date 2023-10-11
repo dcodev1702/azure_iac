@@ -1,8 +1,9 @@
 # Azure Core
-vm_username  = "dcodev"
-ssh_key_name = "secops-linux-tf"
-location     = "eastus"
-tag_env      = "dev"
+linux_vm_size     = "Standard_D2as_v4"
+vm_username       = "dcodev"
+ssh_key_name      = "secops-linux-tf"
+location          = "eastus"
+tag_env           = "dev"
 
 # Network
 network_vnet_cidr = "10.123.0.0/16"
