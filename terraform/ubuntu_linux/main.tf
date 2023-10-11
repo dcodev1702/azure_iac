@@ -133,7 +133,7 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
   name                  = local.hostname
   resource_group_name   = azurerm_resource_group.secops.name
   location              = azurerm_resource_group.secops.location
-  size                  = "Standard_D2as_v4"
+  size                  = var.linux_vm_size
   admin_username        = var.vm_username
   network_interface_ids = [azurerm_network_interface.secops-nic.id]
 
