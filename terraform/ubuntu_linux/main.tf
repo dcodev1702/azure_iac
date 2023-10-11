@@ -25,6 +25,9 @@ resource random_id random_id {
   byte_length = 8
 }
 
+####################################################################
+# Obtain provisioned key vault and store the ssh keys in the vault
+####################################################################
 data azurerm_key_vault main {
   name                = var.key_vault_name
   resource_group_name = var.key_vault_resource_group_name
@@ -52,6 +55,9 @@ resource azurerm_key_vault_secret ssh_private_key {
 }
 
 
+####################################################################
+# Create a virtual network, subnet, NSG, and public IP for the VM
+####################################################################
 resource azurerm_virtual_network secops-vnet {
   name                = "${var.basename}vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.secops.name
@@ -124,6 +130,10 @@ resource azurerm_network_interface secops-nic {
   }
 }
 
+
+####################################################################
+# Create a Linux VM and provision the public SSH key
+####################################################################
 resource azurerm_linux_virtual_machine secops-linux-vm {
   depends_on = [
     azurerm_network_interface.secops-nic,
@@ -175,6 +185,46 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
 }
 
 
+#####################################################################
+# Write private SSH key to local file [ssh/${var.ssh_key_name}.pem]
+#####################################################################
+resource local_sensitive_file vm-ssh-private-key {
+  depends_on      = [azurerm_key_vault_secret.ssh_private_key] 
+  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
+  file_permission = 0400
+  content         = azurerm_key_vault_secret.ssh_private_key.value
+}
+
+
+##########################################################
+# VNET Peering beteween secops and syslog server vnets
+##########################################################
+# Bring in the syslog server vnet
+data azurerm_virtual_network syslog_server {
+  name                = var.syslog_server_vnet
+  resource_group_name = var.syslog_server_rg
+}
+
+# Remote ID: secops vnet id
+resource "azurerm_virtual_network_peering" "syslogsvr" {
+  name                      = "devops2secops"
+  resource_group_name       = var.syslog_server_rg
+  virtual_network_name      = data.azurerm_virtual_network.syslog_server.name
+  remote_virtual_network_id = azurerm_virtual_network.secops-vnet.id
+}
+
+# Remote ID: syslog server vnet id
+resource "azurerm_virtual_network_peering" "syslogclient" {
+  name                      = "secops2devops"
+  resource_group_name       = azurerm_resource_group.secops.name
+  virtual_network_name      = azurerm_virtual_network.secops-vnet.name
+  remote_virtual_network_id = data.azurerm_virtual_network.syslog_server.id
+}
+
+
+##########################################################
+# Local variables and data sources
+##########################################################
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
@@ -198,34 +248,4 @@ data external os {
 data azurerm_public_ip secops {
   name                = azurerm_public_ip.secops_ip.name
   resource_group_name = azurerm_linux_virtual_machine.secops-linux-vm.resource_group_name
-}
-
-# We use the private key to SSH to the Azure VM
-resource local_sensitive_file vm-ssh-private-key {
-  depends_on      = [azurerm_key_vault_secret.ssh_private_key] 
-  filename        = "${path.module}/ssh/${var.ssh_key_name}.pem"
-  file_permission = 0400
-  content         = azurerm_key_vault_secret.ssh_private_key.value
-}
-
-# Bring in the syslog server vnet
-data azurerm_virtual_network syslog_server {
-  name                = var.syslog_server_vnet
-  resource_group_name = var.syslog_server_rg
-}
-
-# Remote ID: secops vnet id
-resource "azurerm_virtual_network_peering" "syslogsvr" {
-  name                      = "devops2secops"
-  resource_group_name       = var.syslog_server_rg
-  virtual_network_name      = data.azurerm_virtual_network.syslog_server.name
-  remote_virtual_network_id = azurerm_virtual_network.secops-vnet.id
-}
-
-# Remote ID: syslog server vnet id
-resource "azurerm_virtual_network_peering" "syslogclient" {
-  name                      = "secops2devops"
-  resource_group_name       = azurerm_resource_group.secops.name
-  virtual_network_name      = azurerm_virtual_network.secops-vnet.name
-  remote_virtual_network_id = data.azurerm_virtual_network.syslog_server.id
 }
