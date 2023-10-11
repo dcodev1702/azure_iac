@@ -33,7 +33,7 @@ git clone https://github.com/dcodev1702/azure_iac.git
 
 4. Modify Terraform variables as required
 
-* Modify variables.tf and terraform.tfvars files  <br />
+* Modify terraform.tfvars  <br />
   - change the value for 'end_user' variable <br />
   ![image](https://user-images.githubusercontent.com/32214072/233409779-06ab855e-7536-4088-8372-1b4f3df37b18.png)
 
