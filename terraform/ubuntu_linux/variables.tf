@@ -14,6 +14,10 @@ variable linux_vm_size {
   type        = string
   description = "Linux VM Size"
 }
+variable basename {
+  type        = string
+  description = "Base name for the resources"
+}
 variable vm_username {
   type        = string
   description = "value for the vm username"
