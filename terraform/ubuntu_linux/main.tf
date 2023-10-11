@@ -207,3 +207,25 @@ resource local_sensitive_file vm-ssh-private-key {
   file_permission = 0400
   content         = azurerm_key_vault_secret.ssh_private_key.value
 }
+
+# Bring in the syslog server vnet
+data azurerm_virtual_network syslog_server {
+  name                = var.syslog_server_vnet
+  resource_group_name = var.syslog_server_rg
+}
+
+# Remote ID: secops vnet id
+resource "azurerm_virtual_network_peering" "syslogsvr" {
+  name                      = "devops2secops"
+  resource_group_name       = var.syslog_server_rg
+  virtual_network_name      = data.azurerm_virtual_network.syslog_server.name
+  remote_virtual_network_id = azurerm_virtual_network.secops-vnet.id
+}
+
+# Remote ID: syslog server vnet id
+resource "azurerm_virtual_network_peering" "syslogclient" {
+  name                      = "secops2devops"
+  resource_group_name       = azurerm_resource_group.secops.name
+  virtual_network_name      = azurerm_virtual_network.secops-vnet.name
+  remote_virtual_network_id = data.azurerm_virtual_network.syslog_server.id
+}
