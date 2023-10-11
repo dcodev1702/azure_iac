@@ -132,7 +132,7 @@ resource azurerm_network_interface secops-nic {
 
 
 ####################################################################
-# Create a Linux VM and provision the public SSH key
+# Create a Linux VM and assign it the public SSH key
 ####################################################################
 resource azurerm_linux_virtual_machine secops-linux-vm {
   depends_on = [
