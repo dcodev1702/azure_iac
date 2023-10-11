@@ -66,3 +66,11 @@ variable key_vault_resource_group_name {
   type        = string
   description = "Name of the keyvault resource group"
 }
+variable syslog_server_vnet {
+  type        = string
+  description = "Syslog server vnet peer"
+}
+variable syslog_server_rg {
+  type        = string
+  description = "Syslog server resource group"
+}
