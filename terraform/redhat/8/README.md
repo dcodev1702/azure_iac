@@ -8,8 +8,11 @@
 4. Create a Service Principal and fill out the following fields in terraform.tfvars <br />
 
 ```console
-export SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
 az login --use-device-code
+```
+
+```console
+subsriptionId="$(az account list --query "[?isDefault].id" --output tsv)"
 az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 ```
 
