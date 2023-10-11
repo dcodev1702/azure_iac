@@ -2,11 +2,11 @@ variable linux_vm_image_publisher {
   type        = string
   description = "Linux Distro"
 }
-linux_vm_image_offer  {
+variable linux_vm_image_offer  {
   type        = string
   description = "Linux Image Offer"
 }
-ubun_22_04_gen2_sku {
+variable ubun_22_04_gen2_sku {
   type        = string
   description = "Linux Gen - SKU"
 }
