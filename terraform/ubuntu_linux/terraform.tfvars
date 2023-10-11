@@ -1,8 +1,8 @@
-# Azure Core
+# Azure Core (Infra)
 linux_vm_size            = "Standard_D2as_v4"
-linux_vm_image_publisher =
-linux_vm_image_offer     = 
-ubun_22_04_gen2_sku      =
+linux_vm_image_publisher = "Canonical"
+linux_vm_image_offer     = "0001-com-ubuntu-server-jammy" 
+ubun_22_04_gen2_sku      = "22_04-lts-gen2"
 vm_username              = "dcodev"
 ssh_key_name             = "secops-linux-tf"
 location                 = "eastus"
