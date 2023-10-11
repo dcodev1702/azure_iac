@@ -31,7 +31,7 @@ terraform {
       version = "~> 2.3.1"
     }
   }
-  backend "azurerm" {
+  backend azurerm {
     resource_group_name  = "rg-terraform-devops" 
     storage_account_name = "satfdevops07695"
     container_name       = "tfstate"
@@ -40,7 +40,7 @@ terraform {
 }
 
 # Configure the Azure provider
-provider "azurerm" {
+provider azurerm {
   features {
     key_vault {
       purge_soft_delete_on_destroy = true
