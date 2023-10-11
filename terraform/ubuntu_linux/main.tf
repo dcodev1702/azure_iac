@@ -9,7 +9,7 @@ resource random_string rstring {
 
 resource azurerm_resource_group secops {
   depends_on = [random_string.rstring]
-  name       = "secops-vm-tf-rg-${random_string.rstring.result}"
+  name       = "secops-tf-rg-${random_string.rstring.result}"
   location   = var.location
   tags = {
     environment = var.tag_env
