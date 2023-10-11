@@ -14,11 +14,11 @@ syslog_tcp = "20514"
 syslog_udp = "514"
 
 # Key Vault Information
-key_vault_name = "kv-ssh-key-22y3spqd"
+key_vault_name                = "kv-ssh-key-22y3spqd"
 key_vault_resource_group_name = "rg-kv-22y3spqd"
 
 # Data Collection Rule & Association
-syslog_dcr_name = "Linux-Syslog-0"
+syslog_dcr_name         = "Linux-Syslog-0"
 dcr_resource_group_name = "sec_telem_law_1"
 
 # Azure Login via Service Principal (SP)
