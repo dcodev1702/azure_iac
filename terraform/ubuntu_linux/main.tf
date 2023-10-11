@@ -79,7 +79,7 @@ resource azurerm_network_security_group secops-nsg {
 }
 
 resource azurerm_network_security_rule secops-dev-ssh-rule {
-  name                        = "secops-tf-dev-ssh-rule"
+  name                        = "secops-tf-ssh-rule"
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
@@ -178,7 +178,7 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
-  hostname = "secops-vm-tf-${random_string.rstring.result}"
+  hostname = "secops-tf-vm-${random_string.rstring.result}"
 }
 
 data http wan_ip {
