@@ -56,7 +56,7 @@ resource azurerm_key_vault_secret ssh_private_key {
 
 
 ####################################################################
-# Create a virtual network, subnet, NSG, and public IP for the VM
+# Create a virtual network, subnet, NSG, public IP, & NIC for the VM
 ####################################################################
 resource azurerm_virtual_network secops-vnet {
   name                = "${var.basename}vnet-${random_id.random_id.hex}"
