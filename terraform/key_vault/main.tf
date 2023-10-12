@@ -59,5 +59,5 @@ resource azurerm_key_vault_access_policy sp_app {
 # for Ubuntu and RHEL VM's so you can create and store SSH Keys in this Key Vault.
 output new_key_vault {
   description = "Name of newly created Key Vault that will store SSH Keys (secrets)"
-  value       = azure_key_vault.main.name
+  value       = azurerm_key_vault.main.name
 }
