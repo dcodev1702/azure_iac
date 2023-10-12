@@ -17,7 +17,7 @@ syslog_tcp        = "20514"
 syslog_udp        = "514"
 
 # Key Vault Information
-key_vault_name                = "kv-ssh-keys-22y3spqd"
+key_vault_name                = "kv-vm-ssh-keys-22y3spqd"
 key_vault_resource_group_name = "rg-kv-22y3spqd"
 
 # Data Collection Rule & Association
