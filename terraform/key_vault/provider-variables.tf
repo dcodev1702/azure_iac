@@ -4,7 +4,7 @@ variable azure_subscription_id {
 }
 variable azure_client_id {
   type        = string
-  description = Azure Client ID
+  description = "Azure Client ID"
 }
 variable azure_client_secret {
   type        = string
