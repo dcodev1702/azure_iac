@@ -74,3 +74,7 @@ variable cloud_environment {
   type = string
   description = "Cloud Type [public, usgovernment]"
 }
+variable host_prefix {
+  type = string
+  description = "Prefix for host when naming resources"
+}
