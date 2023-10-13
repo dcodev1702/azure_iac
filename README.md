@@ -14,3 +14,5 @@
   * Obtain your Tenant ID
   * Obtain your Subscription ID
   * Create a [User Managed Identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity)
+  * Install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+  * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
