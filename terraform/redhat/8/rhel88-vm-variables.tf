@@ -1,3 +1,11 @@
+variable azure_subscription_id {
+  type        = string
+  description = "Azure Subscription ID"
+}
+variable azure_tenant_id {
+  type        = string
+  description = "Azure Tenant ID"
+}
 variable linux_vm_image_publisher {
   type        = string
   description = "Virtual machine source image publisher"
@@ -16,7 +24,7 @@ variable location {
 }
 variable tag_env {
   type    = string
-  default = "rhel88_syslog_collector"
+  description = "Tag for RHEL 8 resource"
 }
 variable network_vnet_cidr {
   type        = string
@@ -48,21 +56,21 @@ variable dcr_resource_group_name {
 }
 variable ssh_port {
   type        = string
-  description = "Linux VM Size"
+  description = "Port 22"
 }
 variable syslog_tcp {
   type        = string
-  description = "Linux VM Size"
+  description = "Port 20514"
 }
 variable syslog_udp {
   type        = string
-  description = "Linux VM Size"
+  description = "Port 514"
 }
-variable key_vault_name {
-  type        = string
-  description = "Name of the keyvault"
+variable user_assigned_identity_guid {
+  type = string
+  description = "User Assigned Identity GUID"
 }
-variable key_vault_resource_group_name {
-  type        = string
-  description = "Name of the keyvault resource group"
+variable cloud_environment {
+  type = string
+  description = "Cloud Type [public, usgovernment]"
 }
