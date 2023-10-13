@@ -11,23 +11,16 @@
 az login --use-device-code
 ```
 
-```console
-subsriptionId="$(az account list --query "[?isDefault].id" --output tsv)"
-az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
-```
-
 ## Fill out these values in terraform.tfvars for Key Vault, RedHat 8/backend, and RedHat 8.
 :: terraform.tfvars :: <br />
 azure_subscription_id = "YOUR_SUBSCRIPTION_ID" <br />
-azure_client_id       = "YOUR_CLIENT(APP)_ID" <br />
-azure_client_secret   = "YOUR_CLIENT_SECRET" <br />
 azure_tenant_id       = "YOUR_TENANT_ID" <br />
 
 <br />
 
 ## Terraform Build Order
-* Key Vault provisoning
 * Azure Storage Account provisioning (backend for tfstate files)
+* Key Vault provisoning
 * RedHat 8.8 Virtual Machine (VM) provisioning
 
 <br />
