@@ -35,8 +35,8 @@ provider azurerm {
       recover_soft_deleted_key_vaults = true
     }
   }
-  environment     = var.cloud_environment  # Cloud Environment [public, usgovernment]
   use_msi         = true
+  environment     = var.cloud_environment  # Cloud Environment [public, usgovernment]
   client_id       = var.user_assigned_identity_guid
   tenant_id       = var.azure_tenant_id
   subscription_id = var.azure_subscription_id
