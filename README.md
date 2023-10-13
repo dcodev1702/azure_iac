@@ -24,9 +24,15 @@
 ## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity [terraform.tfvars]
 ## Provision Infrastructure in the following order:
 * Azure Storage Backend [az_tf_backend]
-  * terraform init
-  * terraform plan
-  * terraform apply -auto-approve
+  ```console
+  terraform init
+  ```
+  ```console
+  terraform plan
+  ```
+  ```console
+  terraform apply -auto-approve
+  ```
 * Azure Key Vault [key_vault]
   * same as above
 * RedHat 8.8 VM [redhat/8]
