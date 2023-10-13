@@ -1,3 +1,85 @@
+# Configure the Azure provider
+terraform {
+  required_version = "~> 1.6.1"
+  required_providers {
+    azurerm  = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.75.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0.4"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5.1"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.3.0"
+    }
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.4.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2.1"
+    }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.3.1"
+    }
+  }
+  backend azurerm {
+    resource_group_name  = "rg-terraform-devops"
+    storage_account_name = "satfdevops07695"
+    container_name       = "tfstate"
+    key                  = "secops-00-vm-syslog.tfstate"
+  }
+}
+
+provider azurerm {
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
+  use_msi         = true
+  environment     = var.cloud_environment              # Cloud Types: Public, USGovernment, etc
+  client_id       = var.user_assigned_identity_guid
+  subscription_id = var.azure_subscription_id
+  tenant_id       = var.azure_tenant_id
+}
+
+# Obtain Key Vault IOT store SSH Keys
+data terraform_remote_state key_vault {
+  backend = "azurerm"
+  config = {
+    storage_account_name = "satfdev0ps1702"
+    resource_group_name  = "rg-terraform-devops"
+    container_name       = "tfstate"
+    key                  = "key-vault-vm-ssh-keys.tfstate"
+
+  }
+}
+
+# V-NET Peering between Syslog Collector (RHEL88) and Client (secops)
+data terraform_remote_state rhel88_vnet {
+  backend = "azurerm"
+  config = {
+    storage_account_name = "satfdev0ps1702"
+    resource_group_name  = "rg-terraform-devops"
+    container_name       = "tfstate"
+    key                  = "rhel88-vm-syslog.tfstate"
+
+  }
+}
+
+# Bring in current client configuration
+data azurerm_client_config current {}
+
 # Generate a random vm name
 resource random_string rstring {
   length  = 8
@@ -28,11 +110,6 @@ resource random_id random_id {
 ####################################################################
 # Obtain provisioned key vault and store the ssh keys in the vault
 ####################################################################
-data azurerm_key_vault main {
-  name                = var.key_vault_name
-  resource_group_name = var.key_vault_resource_group_name
-}
-
 resource tls_private_key main {
   algorithm  = "RSA"
   rsa_bits   = 4096
@@ -40,16 +117,16 @@ resource tls_private_key main {
 
 # Create a secret (ssh public key) in the key vault
 resource azurerm_key_vault_secret ssh_public_key {
-  depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
-  key_vault_id = data.azurerm_key_vault.main.id
+  depends_on   = [tls_private_key.main, data.terraform_remote_state.key_vault]
+  key_vault_id = data.terraform_remote_state.key_vault.outputs.key_vault_id
   name         = "${local.hostname}-ssh-public-key"
   value        = tls_private_key.main.public_key_openssh
 }
 
 # Create a secret (ssh private key) in the key vault
 resource azurerm_key_vault_secret ssh_private_key {
-  depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
-  key_vault_id = data.azurerm_key_vault.main.id
+  depends_on   = [tls_private_key.main, data.terraform_remote_state.key_vault]
+  key_vault_id = data.terraform_remote_state.key_vault.outputs.key_vault_id
   name         = "${local.hostname}-ssh-private-key"
   value        = tls_private_key.main.private_key_pem
 }
@@ -199,26 +276,20 @@ resource local_sensitive_file vm-ssh-private-key {
 ##########################################################
 # VNET Peering beteween secops and syslog server vnets
 ##########################################################
-# Bring in the syslog server vnet
-data azurerm_virtual_network syslog_server {
-  name                = var.syslog_server_vnet
-  resource_group_name = var.syslog_server_rg
-}
-
 # Remote ID: secops vnet id
 resource "azurerm_virtual_network_peering" "syslogsvr" {
-  name                      = "devops2secops"
-  resource_group_name       = var.syslog_server_rg
-  virtual_network_name      = data.azurerm_virtual_network.syslog_server.name
+  name                      = var.rhel88_to_secops
+  resource_group_name       = data.terraform_remote_state.rhel88_vnet.outputs.rhel88_rg_name
+  virtual_network_name      = data.terraform_remote_state.rhel88_vnet.outputs.rhel88_vnet_name
   remote_virtual_network_id = azurerm_virtual_network.secops-vnet.id
 }
 
 # Remote ID: syslog server vnet id
 resource "azurerm_virtual_network_peering" "syslogclient" {
-  name                      = "secops2devops"
+  name                      = var.secops_to_rhel88
   resource_group_name       = azurerm_resource_group.secops.name
   virtual_network_name      = azurerm_virtual_network.secops-vnet.name
-  remote_virtual_network_id = data.azurerm_virtual_network.syslog_server.id
+  remote_virtual_network_id = data.terraform_remote_state.rhel88_vnet.outputs.rhel88_vnet_id
 }
 
 
