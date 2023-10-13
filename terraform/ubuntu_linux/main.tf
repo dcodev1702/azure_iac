@@ -256,6 +256,17 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
   }
 
+  provisioner file {
+    source      = "${path.module}/etc/rsyslog.d/50-default.conf"
+    destination = "/home/${var.vm_username}/50-default.conf"
+    connection {
+      type        = "ssh"
+      user        = self.admin_username
+      private_key = azurerm_key_vault_secret.ssh_private_key.value
+      host        = self.public_ip_address
+    }
+  }
+
   tags = {
     environment = var.tag_env
   }
