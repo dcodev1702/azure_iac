@@ -33,6 +33,12 @@ openjdk-11-jdk-headless \
 python3-dev \
 python3-pip
 
+# Move the rsyslog 50-default config file to the correct location
+sudo mv /home/$USERNAME/50-default.conf /etc/rsyslog.d/50-default.conf
+sudo chown root:root /etc/rsyslog.d/50-default.conf
+sudo systemctl restart rsyslog.service
+sudo systemctl restart syslog.socket
+
 # Install Docker && Docker-Compose
 curl -sSL https://raw.githubusercontent.com/docker/docker-install/master/install.sh | sudo bash 
 sudo usermod -aG docker $USERNAME 
