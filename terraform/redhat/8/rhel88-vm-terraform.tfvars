@@ -7,6 +7,7 @@ linux_vm_image_publisher = "RedHat"
 linux_vm_image_offer     = "RHEL"
 rhel_8_8_gen2_sku        = "88-gen2"
 tag_env                  = "rhel88_syslog_collector"
+host_prefix              = "rhel88-vm-tf"
 cloud_environment        = "public"
 
 # Network
