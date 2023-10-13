@@ -2,6 +2,7 @@
 key_vault_name     = "kv-vm-ssh-keys"
 tag_env            = "key_vault_ssh_keys"
 key_vault_location = "eastus"
+cloud_environment  = "public"
 
 # User Assigned Identity (Managed Service Identity (MSI))
 user_assigned_identity_guid = ""
