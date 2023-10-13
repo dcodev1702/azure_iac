@@ -12,9 +12,9 @@ terraform {
 # Configure the Azure provider
 provider azurerm {
   features {}
-  environment     = "public"
   use_msi         = true
-  client_id       = "f353b116-57f8-46e5-a319-8ff5098691a6"
+  environment     = var.cloud_environment
+  client_id       = var.user_assigned_identity_guid
   subscription_id = var.azure_subscription_id
   tenant_id       = var.azure_tenant_id
 }
