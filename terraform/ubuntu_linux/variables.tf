@@ -46,31 +46,21 @@ variable azure_subscription_id {
   type        = string
   description = "Azure Subscription ID"
 }
-variable azure_client_id {
-  type        = string
-  description = "Azure Client ID"
-}
-variable azure_client_secret {
-  type        = string
-  description = "Azure Client Secret"
-}
 variable azure_tenant_id {
   type        = string
   description = "Azure Tenant ID"
 }
-variable key_vault_name {
-  type        = string
-  description = "Name of the keyvault"
+variable rhel88_to_secops {
+  type = string
 }
-variable key_vault_resource_group_name {
-  type        = string
-  description = "Name of the keyvault resource group"
+variable secops_to_rhel88 {
+  type = string
 }
-variable syslog_server_vnet {
-  type        = string
-  description = "Syslog server vnet peer"
+variable user_assigned_identity_guid {
+  type = string
+  description = "User Assigned Identity GUID"
 }
-variable syslog_server_rg {
-  type        = string
-  description = "Syslog server resource group"
+variable cloud_environment {
+  type = string
+  description = "Type of Cloud [public, usgovernment]"
 }
