@@ -92,7 +92,7 @@ data terraform_remote_state key_vault {
 ######################################################################
 resource azurerm_resource_group rhel88-vm-rg {
   depends_on = [random_string.rstring]
-  name       = "${host_prefix}-rg-${random_string.rstring.result}"
+  name       = "${var.host_prefix}-rg-${random_string.rstring.result}"
   location   = var.location
   tags = {
     environment = var.tag_env
@@ -129,7 +129,7 @@ resource azurerm_key_vault_secret ssh_private_key {
 # Create a virtual network, subnet, NSG, public IP, & NIC for the VM
 ####################################################################
 resource azurerm_virtual_network rhel88-vm-vnet {
-  name                = "${host_prefix}-vnet-${random_id.random_id.hex}"
+  name                = "${var.host_prefix}-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   location            = azurerm_resource_group.rhel88-vm-rg.location
   address_space       = [var.network_vnet_cidr]
@@ -140,7 +140,7 @@ resource azurerm_virtual_network rhel88-vm-vnet {
 
 # Create a subnet for Network
 resource azurerm_subnet rhel88-vm-subnet {
-  name                 = "${host_prefix}-subnet"
+  name                 = "${var.host_prefix}-subnet"
   address_prefixes     = [var.vm_subnet_cidr]
   virtual_network_name = azurerm_virtual_network.rhel88-vm-vnet.name
   resource_group_name  = azurerm_resource_group.rhel88-vm-rg.name
@@ -149,7 +149,7 @@ resource azurerm_subnet rhel88-vm-subnet {
 # Create Security Group to access linux
 resource azurerm_network_security_group rhel88-vm-nsg {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "${host_prefix}-nsg-${random_id.random_id.hex}"
+  name                = "${var.host_prefix}-nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   security_rule {
@@ -202,7 +202,7 @@ resource azurerm_subnet_network_security_group_association rhel88-vm-nsg-associa
 # Get a Static Public IP
 resource azurerm_public_ip rhel88-vm-ip {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "${host_prefix}-ip-${random_id.random_id.hex}"
+  name                = "${var.host_prefix}-ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   allocation_method   = "Static"
@@ -211,7 +211,7 @@ resource azurerm_public_ip rhel88-vm-ip {
 # Create Network Card for linux VM
 resource azurerm_network_interface rhel88-vm-nic {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "${host_prefix}-nic-${random_id.random_id.hex}"
+  name                = "${var.host_prefix}-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
 
@@ -246,7 +246,7 @@ resource azurerm_linux_virtual_machine rhel88-vm {
     version   = "latest"
   }
   os_disk {
-    name                 = "${host_prefix}-osdisk-${random_id.random_id.hex}"
+    name                 = "${var.host_prefix}-osdisk-${random_id.random_id.hex}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
     disk_size_gb         = "80"
@@ -320,7 +320,7 @@ resource azurerm_monitor_data_collection_rule_association syslog-dcra {
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
-  hostname = "${host_prefix}-syslog-${random_string.rstring.result}"
+  hostname = "${var.host_prefix}-syslog-${random_string.rstring.result}"
 }
 
 data azurerm_public_ip rhel88-vm-ip-data {
