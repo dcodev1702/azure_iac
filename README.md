@@ -39,3 +39,8 @@
   * same as above
 * Ubuntu 22.04 VM [ubuntu_linux]
   * same as above
+ 
+* Run the following command to destroy the provisioned infrastruture
+  ```console
+  terraform apply -destroy -auto-approve
+  ```
