@@ -29,7 +29,7 @@ sudo dnf install -y \
      nnn
 
 
-# Copy the rsyslog config file to the correct location
+# Copy the rsyslog config files to their correct locations
 sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
 sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
 sudo /sbin/restorecon -v /etc/rsyslog.d/00-remotelog.conf
