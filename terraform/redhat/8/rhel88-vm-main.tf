@@ -270,8 +270,8 @@ resource azurerm_linux_virtual_machine rhel88-vm {
   }
 
   provisioner file {
-    source      = "${path.module}/etc/rsyslog.d/00-remotelog.conf"
-    destination = "/home/${var.linux_username}/00-remotelog.conf"
+    source      = "${path.module}/etc/"
+    destination = "/home/${var.linux_username}/"
     connection {
       type        = "ssh"
       user        = self.admin_username
