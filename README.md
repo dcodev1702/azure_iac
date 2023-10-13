@@ -13,7 +13,8 @@
 * Access and permissions to an [Azure subscription](https://azure.microsoft.com/en-us/free)
   * Obtain your Tenant ID
   * Obtain your Subscription ID
-  * Create an [Azure Virtual Machine](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal)
+  * Create an [Azure Virtual Machine](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal) (VM)
   * Create a [User Managed Identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity)
-  * Install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-  * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+  * Install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) on your Azure VM.
+  * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) on your Azure VM.
+  * Install [Git](https://github.com/git-guides/install-git) 
