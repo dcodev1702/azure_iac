@@ -14,8 +14,16 @@
   * Obtain your Tenant ID
   * Obtain your Subscription ID
   * Create an [Azure Virtual Machine](https://learn.microsoft.com/en-us/azure/virtual-machines/windows/quick-create-portal) (VM)
-  * Create a [User Managed Identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity)
+  * Create a [User Assigned Managed Identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity)
   * Install the following on your Azure VM.
     * Install [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
     * Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-    * Install [Git](https://github.com/git-guides/install-git) 
+    * Install [Git](https://github.com/git-guides/install-git)
+    * Install [VSCode](https://code.visualstudio.com/docs/setup/setup-overview)
+
+## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity onto all four terraform.tfvars files
+## Provision Infrastructure in the following order:
+* Azure Storage Backend [az_tf_backend]
+* Azure Key Vault [key_vault]
+* RedHat 8.8 VM [redhat/8]
+* Ubuntu 22.04 VM [ubuntu_linux]
