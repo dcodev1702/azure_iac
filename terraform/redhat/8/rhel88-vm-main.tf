@@ -1,6 +1,62 @@
 ######################################################################
 # Boilerplate code for Terraform builds
 ######################################################################
+# Define Terraform provider
+terraform {
+  required_version = "~> 1.6.1"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.75.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0.4"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5.1"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.3.0"
+    }
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.4.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2.1"
+    }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.3.1"
+    }
+  }
+  backend azurerm {
+    resource_group_name  = "rg-terraform-devops" 
+    storage_account_name = "satfdev0ps1702"
+    container_name       = "tfstate"
+    key                  = "rhel88-vm-syslog.tfstate"
+  }
+}
+
+# Configure the Azure provider
+provider azurerm {
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
+  use_msi         = true
+  environment     = var.cloud_environment  # Cloud Environments: [public, usgovernment]
+  client_id       = var.user_assigned_identity_guid
+  subscription_id = var.azure_subscription_id
+  tenant_id       = var.azure_tenant_id
+}
+  
 resource random_string rstring {
   length  = 8
   upper   = false
@@ -18,13 +74,25 @@ resource random_id random_id {
   byte_length = 8
 }
 
+data terraform_remote_state key_vault {
+  backend = "azurerm"
+  config = {
+    storage_account_name = "satfdev0ps1702"
+    resource_group_name  = "rg-terraform-devops"
+    container_name       = "tfstate"
+    key                  = "key-vault-vm-ssh-keys.tfstate"
+
+  }
+}
+
+
 
 ######################################################################
 # Create a resource group (bedrock for all other resources)
 ######################################################################
 resource azurerm_resource_group rhel88-vm-rg {
   depends_on = [random_string.rstring]
-  name       = "rhel88-vm-tf-rg-${random_string.rstring.result}"
+  name       = "${host_prefix}-rg-${random_string.rstring.result}"
   location   = var.location
   tags = {
     environment = var.tag_env
@@ -35,11 +103,6 @@ resource azurerm_resource_group rhel88-vm-rg {
 ######################################################################
 # Obtain provisioned key vault; Generate & store ssh keys in key vault
 ######################################################################
-data azurerm_key_vault main {
-  name                = var.key_vault_name
-  resource_group_name = var.key_vault_resource_group_name
-}
-
 resource tls_private_key main {
   algorithm  = "RSA"
   rsa_bits   = 4096
@@ -47,16 +110,16 @@ resource tls_private_key main {
 
 # Create a secret (ssh public key) in the key vault
 resource azurerm_key_vault_secret ssh_public_key {
-  depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
-  key_vault_id = data.azurerm_key_vault.main.id
+  depends_on   = [tls_private_key.main, data.terraform_remote_state.key_vault]
+  key_vault_id = data.terraform_remote_state.key_vault.outputs.key_vault_id
   name         = "${local.hostname}-ssh-public-key"
   value        = tls_private_key.main.public_key_openssh
 }
 
 # Create a secret (ssh private key) in the key vault
 resource azurerm_key_vault_secret ssh_private_key {
-  depends_on   = [tls_private_key.main, data.azurerm_key_vault.main]
-  key_vault_id = data.azurerm_key_vault.main.id
+  depends_on   = [tls_private_key.main, data.terraform_remote_state.key_vault]
+  key_vault_id = data.terraform_remote_state.key_vault.outputs.key_vault_id
   name         = "${local.hostname}-ssh-private-key"
   value        = tls_private_key.main.private_key_pem
 }
@@ -66,7 +129,7 @@ resource azurerm_key_vault_secret ssh_private_key {
 # Create a virtual network, subnet, NSG, public IP, & NIC for the VM
 ####################################################################
 resource azurerm_virtual_network rhel88-vm-vnet {
-  name                = "rhel88-vm-tf-vnet-${random_id.random_id.hex}"
+  name                = "${host_prefix}-vnet-${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   location            = azurerm_resource_group.rhel88-vm-rg.location
   address_space       = [var.network_vnet_cidr]
@@ -77,7 +140,7 @@ resource azurerm_virtual_network rhel88-vm-vnet {
 
 # Create a subnet for Network
 resource azurerm_subnet rhel88-vm-subnet {
-  name                 = "rhel88-vm-tf-subnet"
+  name                 = "${host_prefix}-subnet"
   address_prefixes     = [var.vm_subnet_cidr]
   virtual_network_name = azurerm_virtual_network.rhel88-vm-vnet.name
   resource_group_name  = azurerm_resource_group.rhel88-vm-rg.name
@@ -86,7 +149,7 @@ resource azurerm_subnet rhel88-vm-subnet {
 # Create Security Group to access linux
 resource azurerm_network_security_group rhel88-vm-nsg {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-nsg-${random_id.random_id.hex}"
+  name                = "${host_prefix}-nsg-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   security_rule {
@@ -139,7 +202,7 @@ resource azurerm_subnet_network_security_group_association rhel88-vm-nsg-associa
 # Get a Static Public IP
 resource azurerm_public_ip rhel88-vm-ip {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-ip-${random_id.random_id.hex}"
+  name                = "${host_prefix}-ip-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
   allocation_method   = "Static"
@@ -148,7 +211,7 @@ resource azurerm_public_ip rhel88-vm-ip {
 # Create Network Card for linux VM
 resource azurerm_network_interface rhel88-vm-nic {
   depends_on          = [azurerm_resource_group.rhel88-vm-rg]
-  name                = "rhel88-vm-tf-nic-${random_id.random_id.hex}"
+  name                = "${host_prefix}-nic-${random_id.random_id.hex}"
   location            = azurerm_resource_group.rhel88-vm-rg.location
   resource_group_name = azurerm_resource_group.rhel88-vm-rg.name
 
@@ -183,7 +246,7 @@ resource azurerm_linux_virtual_machine rhel88-vm {
     version   = "latest"
   }
   os_disk {
-    name                 = "rhel88-vm-osdisk-${random_id.random_id.hex}"
+    name                 = "${host_prefix}-osdisk-${random_id.random_id.hex}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
     disk_size_gb         = "80"
@@ -257,7 +320,7 @@ resource azurerm_monitor_data_collection_rule_association syslog-dcra {
 locals {
   os       = data.external.os.result.os
   host_os  = local.os == "windows" ? "windows" : "linux"
-  hostname = "rhel88-vm-syslog-tf-${random_string.rstring.result}"
+  hostname = "${host_prefix}-syslog-${random_string.rstring.result}"
 }
 
 data azurerm_public_ip rhel88-vm-ip-data {
