@@ -256,6 +256,9 @@ resource azurerm_linux_virtual_machine secops-linux-vm {
     interpreter = local.host_os == "windows" ? ["powershell.exe", "-command"] : ["bash", "-c"]
   }
 
+  # Move's 50-default.conf in /etc/rsyslog.d to the system's location
+  # This conf file is set to forward it's auth & authpriv syslog to 10.120.1.4 (Syslog Collector Private IP)
+  # TCP on port 20514 bec that's the port pre-defined on RHEL 8.
   provisioner file {
     source      = "${path.module}/etc/rsyslog.d/50-default.conf"
     destination = "/home/${var.vm_username}/50-default.conf"
