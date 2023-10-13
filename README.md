@@ -21,7 +21,7 @@
     * Install [Git](https://github.com/git-guides/install-git)
     * Install [VSCode](https://code.visualstudio.com/docs/setup/setup-overview)
 
-## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity onto all four terraform.tfvars files
+## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity [terraform.tfvars]
 ## Provision Infrastructure in the following order:
 * Azure Storage Backend [az_tf_backend]
 * Azure Key Vault [key_vault]
