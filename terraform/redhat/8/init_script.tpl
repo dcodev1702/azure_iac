@@ -33,6 +33,11 @@ sudo dnf install -y \
 sudo mv /home/$USERNAME/00-remotelog.conf /etc/rsyslog.d/00-remotelog.conf
 sudo chown root:root /etc/rsyslog.d/00-remotelog.conf
 sudo /sbin/restorecon -v /etc/rsyslog.d/00-remotelog.conf
+
+sudo mv /home/$USERNAME/rsyslog.conf /etc/rsyslog.conf
+sudo chown root:root /etc/rsyslog.conf
+sudo /sbin/restorecon -v /etc/rsyslog.conf
+
 sudo systemctl restart rsyslog.service
 
 # Register the Microsoft RedHat repository
