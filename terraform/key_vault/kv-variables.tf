@@ -18,7 +18,7 @@ variable key_vault_location {
   type        = string
   description = "Location of Key Vault"
 }
-variable "user_assigned_identity_name" {
+variable user_assigned_identity_name {
   type = string
   description = "User Assigned Identity"
 }
@@ -26,7 +26,7 @@ variable user_assigned_identity_guid {
   type = string
   description = "User Assigned Identity GUID"
 }
-variable "uai_resource_group_name" {
+variable uai_resource_group_name {
   type = string
   description = "User Assigned Identity Resource Group"
 }
