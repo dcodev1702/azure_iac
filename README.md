@@ -8,3 +8,9 @@
   * w/ Remote TF backend, SSH Key stored in Key Vault
 * Windows 10 - TBD
 * Windows Sever - TBD
+
+## To use this repo, you will need the following:
+* Access and permissions to an Azure subscription
+  * Obtain your Tenant ID
+  * Obtain your Subscription ID
+  * Create a [User Managed Identity](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity)
