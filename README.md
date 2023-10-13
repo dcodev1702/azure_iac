@@ -9,7 +9,7 @@
 * Windows 10 - TBD
 * Windows Sever - TBD
 
-## To use this repo, you will need the following:
+## To use this repo effectively, the following is required:
 * Access and permissions to an [Azure subscription](https://azure.microsoft.com/en-us/free)
   * Obtain your Tenant ID
   * Obtain your Subscription ID
