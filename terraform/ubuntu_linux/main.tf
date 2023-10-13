@@ -33,7 +33,7 @@ terraform {
   }
   backend azurerm {
     resource_group_name  = "rg-terraform-devops"
-    storage_account_name = "satfdevops07695"
+    storage_account_name = "satfdevops1702"
     container_name       = "tfstate"
     key                  = "secops-00-vm-syslog.tfstate"
   }
