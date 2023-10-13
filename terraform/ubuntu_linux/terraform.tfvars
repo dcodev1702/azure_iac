@@ -8,23 +8,21 @@ vm_username              = "dcodev"
 ssh_key_name             = "secops-linux-tf"
 location                 = "eastus"
 tag_env                  = "dev"
+cloud_environment        = "public"
 
 # Syslog Server VNET Peering
-syslog_server_vnet       = "rhel88-vm-tf-vnet-072bad5a20dd94cc"
-syslog_server_rg         = "rhel88-vm-tf-rg-hoa35ldd"
+rhel88_to_secops = "syslogsvr2secops"
+secops_to_rhel88 = "secops2syslogsvr"
 
 # Network
 network_vnet_cidr = "10.123.0.0/16"
 vm_subnet_cidr    = "10.123.1.0/24"
 
-# Key Vault Information
-key_vault_name                = "kv-vm-ssh-keys-0ftahiij"
-key_vault_resource_group_name = "rg-kv-0ftahiij"
+# User Assigned Identity (Managed Service Identity (MSI))
+user_assigned_identity_guid = ""
 
 # Azure Login via Service Principal (SP)
 # SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
 # az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
 azure_subscription_id = ""
-azure_client_id       = ""
-azure_client_secret   = ""
 azure_tenant_id       = ""
