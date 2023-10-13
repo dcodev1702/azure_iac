@@ -22,7 +22,7 @@
     * Install [VSCode](https://code.visualstudio.com/docs/setup/setup-overview)
 
 ## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity [terraform.tfvars]
-(![terraform.tfvars](https://github.com/dcodev1702/azure_iac/assets/32214072/550a9b2e-2b6d-4966-98cb-34446ab0c6f2))
+![terraform.tfvars](https://github.com/dcodev1702/azure_iac/assets/32214072/550a9b2e-2b6d-4966-98cb-34446ab0c6f2)
 
 ## Provision Infrastructure in the following order:
 * Azure Storage Backend [az_tf_backend]
