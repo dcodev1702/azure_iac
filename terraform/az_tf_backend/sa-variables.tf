@@ -34,3 +34,11 @@ variable tag_env {
   type        = string
   default     = "terraform backend storage"
 }
+variable user_assigned_identity_guid {
+  type = string
+  description = "User Assigned Identity GUID"
+}
+variable cloud_environment {
+  type = string
+  description = "public"
+}
