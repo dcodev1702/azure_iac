@@ -52,7 +52,7 @@
 * Ubuntu 22.04 VM [ubuntu_linux]
   * same as above
   ```console
-  ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
+  ssh -i ssh/secops-linux-tf.pem dcodev@<PUBLIC_IP_ADDRESS>
   ```
   
 * Run the following command to destroy the provisioned infrastruture
