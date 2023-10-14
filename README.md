@@ -5,7 +5,7 @@
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
   * Remote TF backend
   * Stores generated SSH Key in Azure Key Vault
-  * Creates INBOUND NSG rules for [TCP:22,UDP:514,TCP:20514] fused to your WAN IP
+  * Creates INBOUND NSG rules for [TCP:22 | UDP:514 | TCP:20514] fused to your WAN IP
   * Data Collection Rule (DCR) Syslog Association
     * [Syslog Data Collection Rule](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-collection-syslog) must already exist and be defined in terraform.tfvars
   * RSyslog configured to accept UDP (514) and TCP (20514) remote connections via /etc/rsyslog.d/00-remotelog.conf
