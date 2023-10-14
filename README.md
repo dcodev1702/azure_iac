@@ -3,12 +3,14 @@
 * Azure Blob Storage Account (Terraform Backend support for tfstate)
 * Key Vault (VM SSH Key storage)
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
-  * w/ Remote TF backend, SSH Key stored in Key Vault
+  * Remote TF backend
+  * Stores generated SSH Key in Azure Key Vault
   * Data Collection Rule (DCR) Syslog Association
     * [Syslog Data Collection Rule](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-collection-syslog) must already exist and be defined in terraform.tfvars
   * RSyslog configured to accept UDP (514) and TCP (20514) remote connections via /etc/rsyslog.d/00-remotelog.conf
 * Ubuntu Linux (22.04) as Syslog Client (no agent installed on VM)
-  * w/ Remote TF backend, SSH Key stored in Key Vault
+  * Remote TF backend
+  * Stores generated SSH Key in Azure Key Vault
   * Creates a V-NET Peer with the RHEL 8's V-NET
   * Syslog /etc/rsyslog.d/50-default.conf has been modified to send auth and authpriv facilities to RHEL 8's Private IP Address [10.120.1.4]
 * Windows 10 - TBD
