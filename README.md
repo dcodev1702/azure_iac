@@ -46,9 +46,15 @@
   * same as above
 * RedHat 8.8 VM [redhat/8]
   * same as above
+  ```console
+  ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
+  ```
 * Ubuntu 22.04 VM [ubuntu_linux]
   * same as above
- 
+  ```console
+  ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
+  ```
+  
 * Run the following command to destroy the provisioned infrastruture
   ```console
   terraform apply -destroy -auto-approve
