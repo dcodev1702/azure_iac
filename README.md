@@ -4,8 +4,11 @@
 * Key Vault (VM SSH Key storage)
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
   * w/ Remote TF backend, SSH Key stored in Key Vault
+  * Data Collection Rule (DCR) Syslog Association
+    * [Syslog Data Collection Rule](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-collection-syslog) must already exist and be defined in terraform.tfvars
 * Ubuntu Linux (22.04) as Syslog Client (no agent installed on VM)
   * w/ Remote TF backend, SSH Key stored in Key Vault
+  * Creates a V-NET Peer with the RHEL 8's V-NET
 * Windows 10 - TBD
 * Windows Sever - TBD
 
