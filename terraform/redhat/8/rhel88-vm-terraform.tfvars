@@ -26,8 +26,6 @@ dcr_resource_group_name = "sec_telem_law_1"
 # User Assigned Identity (Managed Service Identity (MSI))
 user_assigned_identity_guid = ""
 
-# Azure Login via Service Principal (SP)
-# export SUBSCRIPTION_ID="ENTER_YOUR_SUBSCRIPTION_ID"
-# az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/$SUBSCRIPTION_ID" --name="AzureTerraformDevOps"
+# Azure Login via Managed Identity (User-Assigned)
 azure_subscription_id   = ""
 azure_tenant_id         = ""
