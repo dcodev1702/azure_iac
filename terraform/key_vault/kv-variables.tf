@@ -32,5 +32,5 @@ variable uai_resource_group_name {
 }
 variable cloud_environment {
   type = string
-  description = "public"
+  description = "Cloud Environment"
 }
