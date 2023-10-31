@@ -1,5 +1,7 @@
 # Terraform::Azure | Infrastructure as Code (IaC)
 * Uses [Managed Identities (User Assigned)](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity) to provision infrastructure
+   * Create Managed Identity (User-Assigned)
+   * Assign Managed Identity to an Azure Virtual Machine.
    * Assign Managed Identity (User-Assigned) to the builtin "Storage Blob Data Owner" role.
 * Azure Blob Storage Account (Terraform Backend support for tfstate)
    * Assigns Managed Identity to Azure Blob Storage Account 
