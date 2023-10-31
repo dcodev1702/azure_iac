@@ -35,6 +35,8 @@
 ```console
 az login
 ```
+![AZ CLI Login](https://github.com/dcodev1702/azure_iac/assets/32214072/bbfff05e-1fee-482c-b681-d59e6d7b66ae)
+
 
 ## Fill in TenantID, SubscriptionID, and your User Assigned Managed Identity
 ![terraform.tfvars](https://github.com/dcodev1702/azure_iac/assets/32214072/550a9b2e-2b6d-4966-98cb-34446ab0c6f2)
