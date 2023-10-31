@@ -1,5 +1,5 @@
 # Terraform::Azure | Infrastructure as Code (IaC)
-* Uses Managed Identities (User) to provision infrastructure
+* Uses [Managed Identities (User Assigned)](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity) to provision infrastructure
 * Azure Blob Storage Account (Terraform Backend support for tfstate)
 * Key Vault (VM SSH Key storage)
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
