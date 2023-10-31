@@ -9,6 +9,8 @@ terraform {
   }
 }
 
+# Managed User-Assigned Identity has already been provisioned
+# https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity
 # Configure the Azure provider
 provider azurerm {
   features {}
