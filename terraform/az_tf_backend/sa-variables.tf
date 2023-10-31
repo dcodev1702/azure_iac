@@ -27,18 +27,18 @@ variable tag_env {
   default     = "terraform backend storage"
 }
 variable user_assigned_identity_name {
-  type = string
+  type        = string
   description = "User Assigned Identity"
 }
 variable user_assigned_identity_guid {
-  type = string
+  type        = string
   description = "User Assigned Identity GUID"
 }
 variable msi_resource_group_name {
-  type = string
+  type        = string
   description = "User Assigned Identity Resource Group"
 }
 variable cloud_environment {
-  type = string
+  type        = string
   description = "Cloud Environment"
 }
