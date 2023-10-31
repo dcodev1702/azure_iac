@@ -1,16 +1,20 @@
 # Terraform::Azure | Infrastructure as Code (IaC)
 * Uses [Managed Identities (User Assigned)](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/how-manage-user-assigned-managed-identities?pivots=identity-mi-methods-azp#create-a-user-assigned-managed-identity) to provision infrastructure
+   * Assign Managed Identity (User-Assigned) to the builtin "Storage Blob Data Owner" role.
 * Azure Blob Storage Account (Terraform Backend support for tfstate)
+   * Assigns Managed Identity to Azure Blob Storage Account 
 * Key Vault (VM SSH Key storage)
+   * Uses remote TF backend (azure blob storage) to store TF state
+   * Assigns Managed Identity to Key Vault Policy for access to read/write Secrets (SSH Keys) to the provisioned Key Vault.
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
-  * Remote TF backend
+  * Uses remote TF backend (azure blob storage) to store TF state
   * Stores generated SSH Key in Azure Key Vault
   * Creates INBOUND NSG rules for [TCP:22 | UDP:514 | TCP:20514] fused to your WAN IP
   * Data Collection Rule (DCR) Syslog Association
     * [Syslog Data Collection Rule](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-collection-syslog) must already exist and be defined in terraform.tfvars
   * RSyslog configured to accept UDP:514 and TCP:20514 remote connections via /etc/rsyslog.d/00-remotelog.conf
-* Ubuntu Linux (22.04) as Syslog Client (no agent installed on VM)
-  * Remote TF backend
+* Ubuntu Linux (22.04) as Syslog Client (no AMA extension installed on VM)
+  * Uses remote TF backend (azure blob storage) to store TF state
   * Stores generated SSH Key in Azure Key Vault
   * Creates INBOUND NSG rule for [TCP:22] fused to your WAN IP
   * Creates a V-NET Peer with the RHEL 8's V-NET
