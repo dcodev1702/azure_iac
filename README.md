@@ -57,13 +57,16 @@ az login
   terraform apply -auto-approve
   ```
 * Azure Key Vault [key_vault]
+  * fill in required values in terraform.tfvars
   * same as above
 * RedHat 8.8 VM [redhat/8]
+  * fill in required values in terraform.tfvars
   * same as above
   ```console
   ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
   ```
 * Ubuntu 22.04 VM [ubuntu_linux]
+  * fill in required values in terraform.tfvars
   * same as above
   ```console
   ssh -i ssh/secops-linux-tf.pem dcodev@<PUBLIC_IP_ADDRESS>
