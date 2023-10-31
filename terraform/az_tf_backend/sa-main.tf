@@ -27,24 +27,13 @@ resource azurerm_resource_group main {
   }
 }
 
-#data "azurerm_subscription" "primary" {}
 data azurerm_client_config current {}
-
-#data azurerm_role_definition builtin_blob_owner {
-#  name = "Storage Blob Data Owner"
-#}
 
 # Obtain User Managed Identity to provision Key Vault / Secrets
 data azurerm_user_assigned_identity user_msi {
   name                = var.user_assigned_identity_name
   resource_group_name = var.msi_resource_group_name
 }
-
-#resource azurerm_role_assignment assign_identity_storage_blob_data_owner {
-#  scope                = azurerm_storage_account.main.id
-#  role_definition_id   = data.azurerm_role_definition.builtin_blob_owner.id
-#  principal_id         = data.azurerm_user_assigned_identity.user_msi.principal_id
-#}
 
 resource azurerm_storage_account main {
   name                     = var.storage_account_name
@@ -72,7 +61,3 @@ resource azurerm_storage_container tfstate {
 output user_assigned_identity_client_id {
   value = data.azurerm_user_assigned_identity.user_msi.client_id
 }
-
-#output role {
-#  value = data.azurerm_role_definition.builtin_blob_owner.role_definition_id
-#}
