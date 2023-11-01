@@ -10,10 +10,10 @@ storage_account_name  = "satfdev0ps1702"
 sa_container_name     = "tfstate"
 
 # User Assigned Identity (Managed Service Identity (MSI))
-user_assigned_identity_name     = ""
 user_assigned_identity_guid     = ""
 user_assigned_identity_endpoint = "http://169.254.169.254/metadata/identity/oauth2/token"
-msi_resource_group_name         = ""
+user_assigned_identity_name     = "AzureTerraformDev0ps"
+uai_resource_group_name         = "sec_telem_law_1"
 
 
 # Azure Login via Managed Identity (User-Assigned)
