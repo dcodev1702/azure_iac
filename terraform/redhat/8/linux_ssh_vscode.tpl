@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Directory path
 SSH_DIR="$HOME/.ssh"
 
