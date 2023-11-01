@@ -19,7 +19,6 @@ network_vnet_cidr = "10.123.0.0/16"
 vm_subnet_cidr    = "10.123.1.0/24"
 
 # User Assigned Identity (Managed Service Identity (MSI))
-user_assigned_identity_guid     = ""
 user_assigned_identity_endpoint = "http://169.254.169.254/metadata/identity/oauth2/token"
 
 # Azure Login via Managed Identity (User-Assigned)
