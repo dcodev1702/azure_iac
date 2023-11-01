@@ -1,5 +1,5 @@
 # Check if .ssh directory exists in C:\Users\$env:USERNAME
-$sshDir = "$env:SystemDrive\$env:HOMEPATH\.ssh"
+$sshDir = "$env:SystemDrive$env:HOMEPATH\.ssh"
 if (-not (Test-Path $sshDir)) {
     # If it doesn't exist, create it
     New-Item -Path $sshDir -ItemType Directory
