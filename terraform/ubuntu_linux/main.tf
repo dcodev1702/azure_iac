@@ -49,6 +49,7 @@ provider azurerm {
   use_msi         = true
   environment     = var.cloud_environment              # Cloud Types: Public, USGovernment, etc
   client_id       = var.user_assigned_identity_guid
+  msi_endpoint    = var.user_assigned_identity_endpoint
   subscription_id = var.azure_subscription_id
   tenant_id       = var.azure_tenant_id
 }
