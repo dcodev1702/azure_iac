@@ -66,10 +66,6 @@ variable syslog_udp {
   type        = string
   description = "Port 514"
 }
-variable user_assigned_identity_guid {
-  type = string
-  description = "User Assigned Identity GUID"
-}
 variable cloud_environment {
   type = string
   description = "Cloud Type [public, usgovernment]"
