@@ -6,6 +6,8 @@ output key_vault_name {
 output key_vault_id {
   value = azurerm_key_vault.main.id
 }
+
+# Access Managed Identity (user-assigned) in RHEL & Ubuntu VM's
 output user_assigned_identity_client_id {
   value = data.azurerm_user_assigned_identity.user_msi.client_id
 }
