@@ -78,3 +78,7 @@ variable host_prefix {
   type = string
   description = "Prefix for host when naming resources"
 }
+variable user_assigned_identity_endpoint {
+  type = string
+  description = "MSI Endpoint"
+}
