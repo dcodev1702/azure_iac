@@ -56,10 +56,6 @@ variable rhel88_to_secops {
 variable secops_to_rhel88 {
   type = string
 }
-variable user_assigned_identity_guid {
-  type = string
-  description = "User Assigned Identity GUID"
-}
 variable cloud_environment {
   type = string
   description = "Type of Cloud [public, usgovernment]"
