@@ -1,10 +1,10 @@
 # Configure the Azure provider
 terraform {
-  required_version = "~> 1.6.2"
+  required_version = "~> 1.6.3"
   required_providers {
     azurerm  = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.78.0"
+      version = "~> 3.79.0"
     }
     tls = {
       source  = "hashicorp/tls"
