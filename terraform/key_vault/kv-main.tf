@@ -1,10 +1,10 @@
 # Define Terraform provider
 terraform {
-  required_version = "~> 1.6.3"
+  required_version = "~> 1.6.4"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.79.0"
+      version = "~> 3.81.0"
     }
     random = {
       source  = "hashicorp/random"
