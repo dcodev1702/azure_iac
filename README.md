@@ -8,6 +8,8 @@
 * Key Vault (VM SSH Key storage)
    * Uses remote TF backend (azure blob storage) to store TF state
    * Assigns Managed Identity to Key Vault Policy for access to read/write Secrets (SSH Keys) to the provisioned Key Vault.
+   * Auditing is enabled however, requires you to specify a Log Analytics Workspace (LAW).
+     * Change the values in the terraform.tfvars file.
 * Data Collection Rule (Azure Monitor Agent)
    * Provision a Linux Syslog Data Collection Rule for the RHEL 8.8 Syslog Collector
 * RHEL 8 Linux (8.8) Syslog Collector (Forwarder) w/ Azure Monitor Agent (AMA)
