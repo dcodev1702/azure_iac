@@ -51,7 +51,7 @@ az login
 ![terraform.tfvars](https://github.com/dcodev1702/azure_iac/assets/32214072/550a9b2e-2b6d-4966-98cb-34446ab0c6f2)
 
 ## Provision Infrastructure in the following order:
-1. Azure Storage Backend [az_tf_backend]
+* Azure Storage Backend [az_tf_backend]
   ```console
   terraform init
   ```
@@ -61,22 +61,22 @@ az login
   ```console
   terraform apply -auto-approve
   ```
-2. Azure Key Vault [key_vault]
+* Azure Key Vault [key_vault]
   * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
-3. Data Collection Rule [az_tf_syslog_dcr]
+* Data Collection Rule [az_tf_syslog_dcr]
   * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
-4. RedHat 8.8 VM [redhat/8] - Syslog Collector
+* RedHat 8.8 VM [redhat/8] - Syslog Collector
   * DEPENDS ON: [Azure Storage Backend, Key Vault, and Data Collection Rule (Syslog)]
   * fill in required values in terraform.tfvars
   * same as above
   ```console
   ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
   ```
-5. Ubuntu 22.04 VM [ubuntu_linux] - Syslog Client
+* Ubuntu 22.04 VM [ubuntu_linux] - Syslog Client
   * DEPENDS ON: [Azure Storage Backend, Key Vault, and RedHat 8.8 Syslog Collector]
   * fill in required values in terraform.tfvars
   * same as above
