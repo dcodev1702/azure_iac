@@ -4,7 +4,7 @@ resource_group_name = "rg-terraform-devops"
 cloud_environment   = "public"
 
 # Storage Account Information
-storage_account_name  = "satfdev0ps1702"
+storage_account_name  = "satfdev0ps1775"
 
 # Terraform Backend Container Information
 sa_container_name     = "tfstate"
