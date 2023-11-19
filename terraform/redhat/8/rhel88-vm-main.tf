@@ -311,6 +311,7 @@ resource local_sensitive_file vm-ssh-private-key {
 # Data Collection Rule (Syslog) Association
 ####################################################################
 # Associate the Data Collection Rule (Syslog) w/ Linux VM (Resource)
+# Pull's provisioned Syslog DCR from TF Remote State (line 89)
 resource azurerm_monitor_data_collection_rule_association syslog-dcra {
   name                    = "dcra-${azurerm_linux_virtual_machine.rhel88-vm.name}"
   target_resource_id      = azurerm_linux_virtual_machine.rhel88-vm.id
