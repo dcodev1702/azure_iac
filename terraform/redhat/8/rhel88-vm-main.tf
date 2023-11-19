@@ -86,6 +86,15 @@ data terraform_remote_state key_vault {
   }
 }
 
+data terraform_remote_state az_tf_syslog_dcr {
+  backend = "azurerm"
+  config = {
+    storage_account_name = "satfdev0ps1775"
+    resource_group_name  = "rg-terraform-devops"
+    container_name       = "tfstate"
+    key                  = "dcr-syslog.tfstate"
+  }
+}
 
 
 ######################################################################
@@ -301,17 +310,11 @@ resource local_sensitive_file vm-ssh-private-key {
 ####################################################################
 # Data Collection Rule (Syslog) Association
 ####################################################################
-data azurerm_monitor_data_collection_rule syslog-dcr {
-  name                = var.syslog_dcr_name
-  resource_group_name = var.dcr_resource_group_name
-}
-
 # Associate the Data Collection Rule (Syslog) w/ Linux VM (Resource)
 resource azurerm_monitor_data_collection_rule_association syslog-dcra {
-  depends_on = [data.azurerm_monitor_data_collection_rule.syslog-dcr]
   name                    = "dcra-${azurerm_linux_virtual_machine.rhel88-vm.name}"
   target_resource_id      = azurerm_linux_virtual_machine.rhel88-vm.id
-  data_collection_rule_id = data.azurerm_monitor_data_collection_rule.syslog-dcr.id
+  data_collection_rule_id = data.terraform_remote_state.az_tf_syslog_dcr.outputs.data_collection_rule_id
 }
 
 
