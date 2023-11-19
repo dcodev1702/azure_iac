@@ -36,7 +36,7 @@ terraform {
   }
   backend azurerm {
     resource_group_name  = "rg-terraform-devops" 
-    storage_account_name = "satfdev0ps1702"
+    storage_account_name = "satfdev0ps1775"
     container_name       = "tfstate"
     key                  = "rhel88-vm-syslog.tfstate"
   }
@@ -80,7 +80,7 @@ resource random_id random_id {
 data terraform_remote_state key_vault {
   backend = "azurerm"
   config = {
-    storage_account_name = "satfdev0ps1702"
+    storage_account_name = "satfdev0ps1775"
     resource_group_name  = "rg-terraform-devops"
     container_name       = "tfstate"
     key                  = "key-vault-vm-ssh-keys.tfstate"
