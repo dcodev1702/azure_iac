@@ -65,7 +65,7 @@ az login
   * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
-* Data Collection Rule [az_tf_syslog dcr]
+* Data Collection Rule [az_tf_syslog_dcr]
   * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
