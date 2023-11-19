@@ -51,16 +51,16 @@ variable azure_tenant_id {
   description = "Azure Tenant ID"
 }
 variable rhel88_to_secops {
-  type = string
+  type        = string
 }
 variable secops_to_rhel88 {
-  type = string
+  type        = string
 }
 variable cloud_environment {
-  type = string
+  type        = string
   description = "Type of Cloud [public, usgovernment]"
 }
 variable user_assigned_identity_endpoint {
-  type = string
+  type        = string
   description = "MSI Endpoint"
 }
