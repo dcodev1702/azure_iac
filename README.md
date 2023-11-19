@@ -59,6 +59,9 @@ az login
   ```console
   terraform apply -auto-approve
   ```
+* Data Collection Rule [syslog dcr]
+  * fill in required values in terraform.tfvars
+  * same as above
 * Azure Key Vault [key_vault]
   * fill in required values in terraform.tfvars
   * same as above
