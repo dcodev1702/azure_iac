@@ -23,7 +23,7 @@ variable location {
   description = "Azure Cloud Region"
 }
 variable tag_env {
-  type    = string
+  type        = string
   description = "Tag for RHEL 8 resource"
 }
 variable network_vnet_cidr {
@@ -67,14 +67,14 @@ variable syslog_udp {
   description = "Port 514"
 }
 variable cloud_environment {
-  type = string
+  type        = string
   description = "Cloud Type [public, usgovernment]"
 }
 variable host_prefix {
-  type = string
+  type        = string
   description = "Prefix for host when naming resources"
 }
 variable user_assigned_identity_endpoint {
-  type = string
+  type        = string
   description = "MSI Endpoint"
 }
