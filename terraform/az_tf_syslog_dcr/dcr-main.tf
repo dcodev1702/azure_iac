@@ -56,12 +56,13 @@ resource azurerm_resource_group main {
   }
 }
 
-# Obtain User Managed Identity to provision Key Vault / Secrets
+# Obtain User Managed Identity to provision the Data Collection Rule
 data azurerm_user_assigned_identity user_msi {
   name                = var.user_assigned_identity_name
   resource_group_name = var.uai_resource_group_name
 }
 
+# Obtain Log Analytics Workspace to provision the Data Collection Rule (destination)
 data azurerm_log_analytics_workspace main {
   name                = var.log_analytics_workspace_name
   resource_group_name = var.log_analytics_workspace_rg
