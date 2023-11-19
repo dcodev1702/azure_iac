@@ -62,18 +62,22 @@ az login
   terraform apply -auto-approve
   ```
 * Azure Key Vault [key_vault]
+  * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
 * Data Collection Rule [syslog dcr]
+  * DEPENDS ON: [Azure Storage Backend]
   * fill in required values in terraform.tfvars
   * same as above
 * RedHat 8.8 VM [redhat/8]
+  * DEPENDS ON: [Azure Storage Backend, Key Vault, and Data Collection Rule (Syslog)]
   * fill in required values in terraform.tfvars
   * same as above
   ```console
   ssh -i ssh/rhel88-rsyslog-azure.pem dcodev@<PUBLIC_IP_ADDRESS>
   ```
 * Ubuntu 22.04 VM [ubuntu_linux]
+  * DEPENDS ON: [Azure Storage Backend, Key Vault, and RedHat 8.8 Syslog Collector]
   * fill in required values in terraform.tfvars
   * same as above
   ```console
