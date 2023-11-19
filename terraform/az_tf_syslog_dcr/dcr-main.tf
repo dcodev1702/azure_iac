@@ -68,7 +68,6 @@ data azurerm_log_analytics_workspace main {
   resource_group_name = var.log_analytics_workspace_rg
 }
 
-
 # Provision Data Collection Rule
 resource azurerm_monitor_data_collection_rule main {
   name                = "${var.dcr_syslog_name}-${random_string.main.result}"
@@ -101,8 +100,8 @@ resource azurerm_monitor_data_collection_rule main {
     identity_ids = [data.azurerm_user_assigned_identity.user_msi.id]
   }
 
-  description = "Syslog Data Collection Rule [terraform]"
+  description    = "Syslog Data Collection Rule [terraform]"
   tags = {
-    environment = var.tag_env
+    environment  = var.tag_env
   }
 }
