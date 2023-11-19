@@ -75,6 +75,8 @@ resource random_id random_id {
   byte_length = 8
 }
 
+# Obtain the desired state of the provisoned Key Vault
+# Requied in order to send SSH Keys to KV for storage/use.
 data terraform_remote_state key_vault {
   backend = "azurerm"
   config = {
@@ -86,6 +88,8 @@ data terraform_remote_state key_vault {
   }
 }
 
+# Obtain the desired state of the provisioned DCR
+# Required in order to associate VM to the Linux Syslog DCR
 data terraform_remote_state az_tf_syslog_dcr {
   backend = "azurerm"
   config = {
