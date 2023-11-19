@@ -64,7 +64,7 @@ terraform apply -auto-approve
 
 8. SSH into your newly provisioned Linux VM
 ```code
-ssh -i ssh/secOpsAzureKey <username>@<VM-PUBLIC-IP>
+ssh -i ssh/secops-linux-tf.pem dcodev@<VM-PUBLIC-IP>
 ```
 
 9. Connect VSCode via SSH
