@@ -27,22 +27,22 @@ variable log_analytics_workspace_rg {
   description = "Log-A Resource Group"
 }
 variable user_assigned_identity_name {
-  type = string
+  type        = string
   description = "User Assigned Identity"
 }
 variable user_assigned_identity_guid {
-  type = string
+  type        = string
   description = "User Assigned Identity GUID"
 }
 variable uai_resource_group_name {
-  type = string
+  type        = string
   description = "User Assigned Identity Resource Group"
 }
 variable cloud_environment {
-  type = string
+  type        = string
   description = "Cloud Environment"
 }
 variable user_assigned_identity_endpoint {
-  type = string
+  type        = string
   description = "MSI Endpoint"
 }
