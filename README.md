@@ -4,7 +4,9 @@
    * Assign Managed Identity to an Azure Virtual Machine.
    * Assign Managed Identity (User-Assigned) to the builtin "Storage Blob Data Owner" role.
 * Azure Blob Storage Account (Terraform Backend support for tfstate)
-   * Assigns Managed Identity to Azure Blob Storage Account 
+   * Assigns Managed Identity to Azure Blob Storage Account
+* Data Collection Rule (Azure Monitor Agent)
+   * Provision a Linux Syslog Data Collection Rule for the RHEL 8.8 Syslog Collector
 * Key Vault (VM SSH Key storage)
    * Uses remote TF backend (azure blob storage) to store TF state
    * Assigns Managed Identity to Key Vault Policy for access to read/write Secrets (SSH Keys) to the provisioned Key Vault.
