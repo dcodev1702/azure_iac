@@ -43,6 +43,6 @@ variable cloud_environment {
   description = "Cloud Environment"
 }
 variable user_assigned_identity_endpoint {
-  type = string
+  type        = string
   description = "MSI Endpoint"
 }
